@@ -1,0 +1,63 @@
+def check(myStr): 
+    stack = [] 
+    open_list = ["[","{","("] 
+    close_list = ["]","}",")"] 
+    for i in myStr: 
+        if i in open_list: 
+            stack.append(i) 
+        elif i in close_list: 
+            pos = close_list.index(i) 
+            if ((len(stack) > 0) and
+                (open_list[pos] == stack[len(stack)-1])): 
+                stack.pop() 
+            else: 
+                return "Unbalanced"
+    if len(stack) == 0: 
+        return "Balanced"
+   
+string = "[{}{})(]"
+print(string,"-", check(string)) 
+*********************************************************************************************************
+def reverseInParentheses(s):
+    stack = []
+    for x in s:
+        if x == ")":
+            tmp = ""
+            while stack[-1] != "(":
+                tmp += stack.pop()
+            stack.pop() # pop the (
+            for item in tmp:
+                stack.append(item)
+            #stack.append(")")    
+        else:
+            stack.append(x)
+
+    return "".join(stack)
+    
+reverseInParentheses("d(b(a)c)e")  
+*********************************************************************************************************
+https://www.geeksforgeeks.org/stack-set-2-infix-to-postfix/
+
+*********************************************************************************************************
+def count_say_next_number(s):
+    result = []
+    i=0
+    while i< len(s):
+        count=1
+        while i+1 < len(s) and s[i] == s[i+1]:
+            i+=1
+            count+=1
+        result.append(str(count)+s[i])  
+        i+=1
+    return ''.join(result)    
+    
+s='1'    
+n=4
+for i in range(n):
+    s=count_say_next_number(s)    
+    print(s)
+*********************************************************************************************************
+*********************************************************************************************************
+*********************************************************************************************************
+*********************************************************************************************************
+*********************************************************************************************************

@@ -1,0 +1,732 @@
+******************************************************************************************************
+#reverseLinkedlist
+class ListNode(object):
+    def __init__(self, x):
+        self.val = x
+        self.next = None
+         
+class Solution(object): 
+    def __init__(self):
+        self.head = None
+        self.size = 0
+    
+    def push(self, data):
+        
+        self.size +=1
+        new_node = ListNode(data)
+        
+        if not self.head:
+            self.head = new_node
+        else:
+            new_node.next = self.head 
+            self.head = new_node 
+            
+    def reverseLinkedlist(self):
+        
+        prev = None
+        current = self.head
+        
+        
+        while current:
+            nxt = current.next
+            current.next = prev
+            prev = current
+            current= nxt
+        self.head = prev
+        
+l1 = Solution() 
+        
+                    
+l1.push('E') 
+l1.push('D') 
+l1.push('C') 
+l1.push('B') 
+l1.push('A') 
+
+          
+l1.reverseLinkedlist()
+*********************************************************************************************************
+#detectCycle
+class ListNode(object):
+     def __init__(self, x):
+         self.val = x
+         self.next = None
+
+class Solution(object):
+    def detectCycle(self, head):
+        start = head 
+        end = head
+        
+        while start and end and end.next:
+            
+            start = start.next
+            end = end.next.next
+            
+            if start == end:
+                return self.cycleStartsFrom(start,head)
+            
+        return None    
+    
+    
+    def cycleStartsFrom(self,p,q):
+        
+        while p!=q:
+            p = p.next
+            q = q.next
+            
+        return p    
+********************************************************************************************************* 
+#removeNthNode
+class ListNode(object):
+    def __init__(self, x):
+        self.val = x
+        self.next = None
+         
+class Solution(object): 
+    def __init__(self): 
+        self.head = None
+    
+    def push(self, new_data): 
+        new_node = ListNode(new_data) 
+        new_node.next = self.head 
+        self.head = new_node 
+
+    def removeNthNode(self, head, n):
+        if head.val==n:
+            self.head=head.next
+            head.next=None
+            return self.head
+        
+        first = head.next
+        second = head
+      
+        while first.next is not None:
+            if first.val == n:
+                second.next = first.next
+                return head
+            else:
+                first = first.next
+                second = second.next
+        return head
+        
+l1 = Solution() 
+        
+                    
+l1.push(2) 
+l1.push(8) 
+l1.push(3) 
+l1.push(7) 
+l1.push(5) 
+    
+l1.removeNthNode(l1.head, 3)
+*********************************************************************************************************
+#addTwoNumbers
+class ListNode(object):
+    def __init__(self, x):
+        self.val = x
+        self.next = None
+         
+class Solution(object): 
+    def __init__(self): 
+        self.head = None
+    
+    def push(self, new_data): 
+        new_node = ListNode(new_data) 
+        new_node.next = self.head 
+        self.head = new_node 
+        
+    def addTwoNumbers(self,l1,l2):
+        carry = 0 
+        NewList=ListNode(0)
+        temp=NewList
+        totalSum=0
+        
+        while l1 or l2 or carry:
+            
+            if l1:
+                totalSum += l1.val
+                l1= l1.next
+            if l2:
+                totalSum+= l2.val
+                l2=l2.next
+            totalSum += carry
+            carry= totalSum//10
+            temp.next=ListNode(totalSum%10)
+            totalSum=0
+            temp= temp.next
+            
+        return NewList.next 
+            
+l1 = Solution()         
+l2 = Solution()
+l1.push(3)
+l1.push(4)                    
+l1.push(2) 
+ 
+l2.push(4)
+l2.push(6)                    
+l2.push(5)
+
+result=Solution()
+result.addTwoNumbers(l1.head,l2.head)
+********************************************************************************************************* 
+#lengthOfLinkedList
+class Node(object):
+    def __init__(self, data):
+        self.data = data
+        self.next = None
+
+class LinkedList_middle(object):
+    
+    def __init__(self):
+        self.head = None
+    
+    def push(self, data):
+        new_node = Node(data) 
+        new_node.next = self.head 
+        self.head = new_node 
+        
+    def lengthOfLinkedList(self):
+        
+        count=0
+        p=self.head
+        while p:
+            count+=1
+            p=p.next
+        return count
+        
+l1 = LinkedList_middle() 
+       
+l1.push(4) 
+l1.push(3) 
+l1.push(2) 
+l1.push(1) 
+
+print(l1.lengthOfLinkedList())
+********************************************************************************************************* 
+#removeNthFromEnd
+class ListNode(object):
+    def __init__(self, x):
+        self.val = x
+        self.next = None
+         
+class Solution(object): 
+    def __init__(self): 
+        self.head = None
+    
+    def push(self, new_data): 
+        new_node = ListNode(new_data) 
+        new_node.next = self.head 
+        self.head = new_node 
+
+    def removeNthFromEnd(self, head, n):
+        
+        dummy = ListNode(0)
+        dummy.next = head
+        first = second = dummy
+        
+        for i in range(n):
+            first = first.next
+        
+        while first.next is not None:
+            first = first.next
+            second = second.next
+        else:
+            second.next = second.next.next
+        
+        return dummy.next
+        
+l1 = Solution() 
+        
+                    
+l1.push(1) 
+l1.push(2) 
+l1.push(3) 
+l1.push(4) 
+l1.push(5) 
+
+      
+a=Solution()    
+a.removeNthFromEnd(l1.head, 2)
+
+********************************************************************************************************* 
+#removeduplicates
+class ListNode(object):
+    def __init__(self, x):
+        self.val = x
+        self.next = None
+         
+class Solution(object): 
+    def __init__(self):
+        self.head = None
+        self.size = 0
+    
+    def push(self, data):
+        
+        self.size +=1
+        new_node = ListNode(data)
+        
+        if not self.head:
+            self.head = new_node
+        else:
+            new_node.next = self.head 
+            self.head = new_node 
+            
+    def removeduplicates(self):
+        
+        if self.head == None:
+            return head
+        
+        head=self.head
+        current = head.next
+        prev = head
+        
+        while current != None:
+            if current.val == prev.val:
+                prev.next = current.next
+                current = current.next
+            else:
+                current = current.next
+                prev = prev.next
+        
+        return head
+        
+l1 = Solution() 
+        
+                    
+l1.push(1) 
+l1.push(2) 
+l1.push(2) 
+l1.push(4) 
+l1.push(4) 
+
+          
+l1.removeduplicates()
+********************************************************************************************************* 
+#finding middle number
+class Node(object):
+    def __init__(self, data):
+        self.data = data
+        self.next = None
+
+class LinkedList_middle(object):
+    
+    def __init__(self):
+        self.head = None
+        self.size = 0
+    
+    def push(self, data):
+        
+        self.size +=1
+        new_node = Node(data)
+        
+        if not self.head:
+            self.head = new_node
+        else:
+            new_node.next = self.head 
+            self.head = new_node 
+
+    def find_middle_number(self):
+        
+        first = self.head
+        second = self.head
+        
+        while first.next is not None and first.next.next is not None:
+            first = first.next.next
+            second = second.next
+        
+			
+        return second
+        
+l1 = LinkedList_middle() 
+        
+l1.push(7)                    
+l1.push(6)
+l1.push(5)
+l1.push(4) 
+l1.push(3) 
+l1.push(2) 
+l1.push(1) 
+
+print(l1.find_middle_number())
+********************************************************************************************************* 
+#palindrom
+class ListNode(object):
+    def __init__(self, x):
+        self.val = x
+        self.next = None
+
+class Solution(object): 
+    def __init__(self):
+        self.head = None
+        self.size = 0
+    
+    def push(self, data):
+        self.size +=1
+        new_node = ListNode(data)
+        
+        if not self.head:
+            self.head = new_node
+        else:
+            new_node.next = self.head 
+            self.head = new_node 
+            
+            
+    def is_Palindrome(self):
+        
+        if head==None:
+            return True
+        elif head.next==None:
+            return True
+            
+        first=self.head
+        second=self.head
+        
+        while first and second:
+            first= first.next.next
+            
+            if first==None:
+                second_start=second.next
+                break
+            elif first.next==None:
+                second_start=second.next.next
+                break
+            second=second.next
+        second.next=None    
+        
+    
+        prev = None
+        current = self.head
+        while current:
+            nxt = current.next
+            current.next = prev	
+            prev = current
+            current= nxt
+        self.head = prev
+        
+        while second and second_start:
+            if second.val==second_start.val:
+                second=second.next
+                second_start=second_start.next
+            else:
+                return False
+        return True        
+        
+l1 = Solution() 
+                            
+l1.push('A') 
+l1.push('B')  
+l1.push('C')  
+l1.push('B') 
+l1.push('A') 
+
+          
+l1.is_Palindrome()
+********************************************************************************************************* 
+#Merge two sorted linked list
+class ListNode(object):
+    def __init__(self, x):
+        self.val = x
+        self.next = None
+         
+class Solution(object): 
+    def __init__(self): 
+        self.head = None
+    
+    def push(self, new_data): 
+        new_node = ListNode(new_data) 
+        new_node.next = self.head 
+        self.head = new_node 
+        
+    def MergeTwoSortedList(self,list):
+
+        P = self.head
+        Q = list.head
+        S = None
+
+		#if P is None
+        if not P:
+            return Q
+        if not Q:
+            return P
+        
+		#if P and Q is not None
+        if P and Q:
+            if P.val < Q.val:
+                S = P
+                P = S.next
+            else:
+                S = Q    
+                Q = S.next
+            new_head = S
+
+        while P and Q:
+            if P.val <= Q.val:
+                S.next = P
+                S = P
+                P = S.next
+            else:
+                S.next = Q
+                S = Q
+                Q = S.next
+
+
+        if not P:
+            S.next = Q
+        if not Q:
+            S.next = P
+            
+        return print(new_head)
+        
+l1 = Solution() 
+l2 = Solution()         
+                    
+l1.push(7) 
+l1.push(5) 
+l1.push(1) 
+
+
+l2.push(4) 
+l2.push(3) 
+l2.push(2) 
+    
+l1.MergeTwoSortedList(l2)
+********************************************************************************************************* 
+#oddOrEven
+class ListNode(object):
+    def __init__(self, x):
+        self.val = x
+        self.next = None
+         
+class Solution(object): 
+    def __init__(self): 
+        self.head = None
+    
+    def push(self, new_data): 
+        new_node = ListNode(new_data) 
+        new_node.next = self.head 
+        self.head = new_node 
+
+    def oddOrEven(self):
+        p=self.head
+        while 1:
+            if p==None:
+                return "even"
+            elif p.next==None:
+                return "odd" 
+            else:
+                p=p.next.next
+                    
+        
+l1 = Solution() 
+         
+l1.push(8) 
+l1.push(3) 
+l1.push(7) 
+l1.push(5) 
+     
+l1.oddOrEven()
+********************************************************************************************************* 
+#rotateSortedList    
+class ListNode(object):
+    def __init__(self, x):
+        self.val = x
+        self.next = None
+         
+class Solution(object): 
+    def __init__(self): 
+        self.head = None
+    
+    def push(self, new_data): 
+        new_node = ListNode(new_data) 
+        new_node.next = self.head 
+        self.head = new_node 
+        
+    def rotateSortedList(self,n):
+        
+        p=self.head
+        new_start=None
+        for i in range(n):
+            p=p.next
+        new_start=p.next  
+        p.next=None
+        q=new_start
+        
+        
+        while q.next!=None:
+            q=q.next
+        
+        q.next=self.head  
+        self.head=new_start
+        p=None
+        q=None
+      
+        return new_start
+        
+l1 = Solution()         
+l1.push(5)
+l1.push(4)                    
+l1.push(3) 
+l1.push(2) 
+l1.push(1) 
+    
+l1.rotateSortedList(2)
+********************************************************************************************************* 
+#Intersection O(n)
+class ListNode(object):
+    def __init__(self, x):
+        self.val = x
+        self.next = None
+         
+class Solution(object): 
+    def __init__(self): 
+        self.head = None
+    
+    def push(self, new_data): 
+        new_node = ListNode(new_data) 
+        new_node.next = self.head 
+        self.head = new_node 
+        
+    def Intersection(self,headA,headB):
+        
+        curA,curB = headA,headB
+        lenA,lenB = 0,0
+        while curA is not None:
+            lenA += 1
+            curA = curA.next
+        while curB is not None:
+            lenB += 1
+            curB = curB.next
+        curA,curB = headA,headB
+        if lenA > lenB:
+            for i in range(lenA-lenB):
+                curA = curA.next
+        elif lenB > lenA:
+            for i in range(lenB-lenA):
+                curB = curB.next
+        while curB.val != curA.val:
+            curB = curB.next
+            curA = curA.next
+        return curA
+        
+l1 = Solution()         
+l2 = Solution()
+l1.push(30)
+l1.push(15)                    
+l1.push(9) 
+l1.push(6) 
+l1.push(3) 
+
+l2.push(30)
+l2.push(15)                    
+l2.push(10)
+
+l1.Intersection(l1.head,l2.head)
+********************************************************************************************************* 
+#swap node Pairwise
+https://www.youtube.com/watch?v=jiLloHVmLDc
+
+class ListNode(object):
+    def __init__(self, x):
+        self.val = x
+        self.next = None
+         
+class Solution(object): 
+    def __init__(self): 
+        self.head = None
+    
+    def push(self, new_data): 
+        new_node = ListNode(new_data) 
+        new_node.next = self.head 
+        self.head = new_node 
+        
+    def swapPairs(self,head):
+        
+        if not head:
+            return None
+        if not head.next:
+            return head
+        
+        p = head
+        new_head = p.next
+        
+        while True:
+            
+            q = p.next
+            temp = q.next
+            q.next = p
+            
+            if temp == None or temp.next == None:
+                p.next =  temp
+                break
+                
+            p.next = temp.next
+            p = temp
+            
+        return new_head    
+        
+l1 = Solution()         
+
+l1.push(4)                    
+l1.push(3) 
+l1.push(2) 
+l1.push(1) 
+    
+l1.swapPairs(l1.head)
+
+********************************************************************************************************* 
+#Remove duplicate elements(nodes) from an Unsorted list
+1. 2 for loops
+2.sort it and check for duplicates
+3. Hashing
+class ListNode(object):
+    def __init__(self, x):
+        self.val = x
+        self.next = None
+         
+class Solution(object): 
+    def __init__(self):
+        self.head = None
+        self.size = 0
+    
+    def push(self, data):
+        
+        self.size +=1
+        new_node = ListNode(data)
+        
+        if not self.head:
+            self.head = new_node
+        else:
+            new_node.next = self.head 
+            self.head = new_node 
+            
+    def reverseLinkedlist(self):
+        
+        a=[0] * self.size
+        
+        p=self.head
+        a[p.val]=1
+        q=self.head
+        p=p.next
+        
+        while p:
+            if a[p.val]==1:
+                store=p.next
+                q.next=store
+                p=store
+            else:
+                a[p.val]=1
+                p=p.next
+                q=q.next      
+l1 = Solution() 
+
+l1.push(5)        
+l1.push(4)                    
+l1.push(5) 
+l1.push(3) 
+l1.push(2) 
+l1.push(3) 
+l1.push(1)         
+l1.reverseLinkedlist()
+********************************************************************************************************* 
+#Add two numbers represented by linked lists

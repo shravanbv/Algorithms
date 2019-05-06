@@ -1,0 +1,1188 @@
+class Node(object):
+
+	def __init__(self, data):
+		self.data = data;
+		self.leftChild = None;
+		self.rightChild = None;
+		
+class BinarySearchTree(object):
+
+	def __init__(self):
+		self.root = None;
+		
+	def insert(self, data):
+		if not self.root:
+			self.root = Node(data);
+		else:
+			self.insertNode(data, self.root);
+			
+	# O(logN)   if the tree is balanced !!!!!!!!!!!!!  --> it can reduced to O(N) --> AVL RBT are needed !!!!!
+	def insertNode(self, data, node):
+	
+		if data < node.data:
+			if node.leftChild:
+				self.insertNode(data, node.leftChild);
+			else:
+				node.leftChild = Node(data);
+		else:
+			if node.rightChild:
+				self.insertNode(data, node.rightChild);
+			else:
+				node.rightChild = Node(data);
+	
+	# O(logN)	
+	def removeNode(self, data, node):
+	
+		if not node:
+			return node;
+			
+		if data < node.data:
+			node.leftChild = self.removeNode(data, node.leftChild);
+		elif data > node.data:
+			node.rightChild = self.removeNode(data, node.rightChild);
+		else:
+			
+			if not node.leftChild and not node.rightChild:
+				print("Removing a leaf node...");
+				del node;
+				return None;
+				
+			if not node.leftChild:  # node !!!
+				print("Removing a node with single right child...");
+				tempNode = node.rightChild;
+				del node;
+				return tempNode;
+			elif not node.rightChild:   # node instead of self
+				print("Removing a node with single left child...");
+				tempNode = node.leftChild;
+				del node;
+				return tempNode;
+			
+			print("Removing node with two children....");
+			tempNode = self.getPredecessor(node.leftChild);   # self instead of elf  + get predecessor 
+			node.data = tempNode.data;
+			node.leftChild = self.removeNode(tempNode.data, node.leftChild);
+		
+		return node;   # !!!!!!!!!!!!
+
+	def getPredecessor(self, node):
+	
+		if node.rightChild:
+			return self.getPredeccor(node.rightChild);
+			
+		return node;
+		
+	def remove(self, data):
+		if self.root:
+			self.root = self.removeNode(data, self.root);
+			
+		# O(logN)
+	def getMinValue(self):
+		if self.root:
+			return self.getMin(self.root);
+			
+	def getMin(self, node):
+	
+		if node.leftChild:
+			return self.getMin(node.leftChild);
+			
+		return node.data;
+		
+		# O(logN)
+	def getMaxValue(self):
+		if self.root:
+			return self.getMax(self.root);
+			
+	def getMax(self, node):
+	
+		if node.rightChild:
+			return self.getMax(node.rightChild);
+			
+		return node.data;
+		
+	def traverse(self):
+		if self.root:
+			self.traverseInOrder(self.root);
+			
+			# O(N)
+	def traverseInOrder(self, node):
+	
+		if node.leftChild:
+			self.traverseInOrder(node.leftChild);
+			
+		print("%s " % node.data);
+		
+		if node.rightChild:
+			self.traverseInOrder(node.rightChild);
+			
+			
+bst = BinarySearchTree();
+bst.insert(10);
+bst.insert(13);
+bst.insert(5);
+bst.insert(14);
+bst.remove(10);
+
+bst.traverse();
+
+********************************************************************************************************* 
+In binary search tree inorder is always sorted
+#traverseInOrder
+class Node(object):
+
+	def __init__(self, data):
+		self.data = data;
+		self.leftChild = None;
+		self.rightChild = None;
+		
+class BinarySearchTree(object):
+
+	def __init__(self):
+		self.root = None;
+		
+	def insert(self, data):
+		if not self.root:
+			self.root = Node(data);
+		else:
+			self.insertNode(data, self.root);
+			
+	def insertNode(self, data, node):
+	
+		if data < node.data:
+			if node.leftChild:
+				self.insertNode(data, node.leftChild);
+			else:
+				node.leftChild = Node(data);
+		else:
+			if node.rightChild:
+				self.insertNode(data, node.rightChild);
+			else:
+				node.rightChild = Node(data);
+				
+	def traverse(self):
+		if self.root:
+			self.traverseInOrder(self.root);
+			
+			# O(N)
+	def traverseInOrder(self, node):
+	
+		if node.leftChild:
+			self.traverseInOrder(node.leftChild);
+			
+		print("%s " % node.data);
+		
+		if node.rightChild:
+			self.traverseInOrder(node.rightChild);
+			
+bst = BinarySearchTree();
+bst.insert(10);
+bst.insert(13);
+bst.insert(5);
+bst.insert(14);
+bst.insert(1);
+bst.insert(6);
+bst.insert(12);
+
+print(bst.traverse())
+
+			  10
+		5			13
+	1		6	12			14
+	
+1-5-6-10-12-13-14	
+
+#iteratively	
+class Node: 
+    def __init__(self ,val): 
+        self.val = val 
+        self.left = None
+        self.right = None
+  
+def inorderTraversal(root): 
+    res, stack = [], []
+    while True:
+        while root:
+            stack.append(root)
+            root = root.left
+        if not stack:
+            return res
+        node = stack.pop()
+        res.append(node.val)
+        root = node.right
+  
+root = Node(1) 
+root.left = Node(2) 
+root.right = Node(3) 
+root.left.left = Node(4) 
+root.left.right = Node(5) 
+root.right.left= Node(6)
+root.right.left.left = Node(7)
+print(inorderTraversal(root)) 	
+
+********************************************************************************************************* 
+#traversePreOrder
+def traverse(self):
+        if self.root:
+            self.traversePreOrder(self.root);
+            
+            # O(N)
+    def traversePreOrder(self, node):
+        
+        print("%s " % node.data);
+        
+        if node.leftChild:
+            self.traversePreOrder(node.leftChild);
+        
+        if node.rightChild:
+            self.traversePreOrder(node.rightChild);
+            
+bst = BinarySearchTree();
+bst.insert(10);
+bst.insert(13);
+bst.insert(5);
+bst.insert(14);
+bst.insert(1);
+bst.insert(6);
+bst.insert(12);
+
+print(bst.traverse())
+
+			  10
+		5			13
+	1		6	 12			14
+	
+10-5-1-6-13-12-14
+
+#iteratively
+def preorderTraversal(root):
+    stack, res = [root], []
+    while stack:
+        node = stack.pop()
+        if node:
+            res.append(node.val)
+            stack.append(node.right)
+            stack.append(node.left)
+    return res
+********************************************************************************************************* 
+#traversePostOrder
+def traversePostOrder(self, node):
+        
+        if node.leftChild:
+            self.traversePostOrder(node.leftChild);
+        
+        if node.rightChild:
+            self.traversePostOrder(node.rightChild);
+            
+        print("%s " % node.data);
+				  10
+			5			13
+		1		6	12			14
+	
+1-6-5-12-14-13-10
+
+#iterative
+#1-6-5-12-14-13-10
+class Node: 
+    def __init__(self, val): 
+        self.val = val
+        self.left = None
+        self.right = None
+    
+def traverse(root):
+    rst = []
+    stack = []
+    while root or stack:
+        if root:
+            rst.insert(0, root.val)
+            stack.append(root)
+            root = root.right
+        else:
+            root = stack.pop().left
+    return rst
+
+root = Node(10) 
+root.left = Node(5) 
+root.right = Node(13) 
+root.left.left = Node(1) 
+root.left.right = Node(6) 
+root.right.left = Node(12) 
+root.right.right = Node(14)
+
+print(traverse(root))
+
+
+ans = [] 
+class Node: 
+      
+    def __init__(self, data): 
+        self.data = data 
+        self.left = None
+        self.right = None
+        
+        
+#iterative2  
+def postOrderIterative(root): 
+          
+    if root is None: 
+        return 
+  
+    current=root
+    stack = [] 
+      
+    while(current != None or len(stack)>0): 
+        if current != None:
+            stack.append(current)
+            current=current.left
+        else:
+            temp = stack[-1].right
+            if temp == None:
+                temp = stack.pop()
+                ans.append(temp.data)
+                while len(stack)>0 and temp == stack[-1].right:
+                    temp = stack.pop()
+                    ans.append(temp.data)
+            else:
+                current = temp
+            
+  
+# Driver pogram to test above function 
+root = Node(1) 
+root.left = Node(2) 
+root.right = Node(3) 
+root.left.left = Node(4) 
+root.left.right = Node(5) 
+root.right.left = Node(6) 
+root.right.right = Node(7) 
+  
+postOrderIterative(root) 
+
+********************************************************************************************************* 
+#size
+def traverse(self):
+        if self.root:
+            self.size(self.root);
+            
+            # O(N)
+    def size(self, node):
+        
+        if node==None:
+            return 0
+            
+        return 1+self.size(node.leftChild)+self.size(node.rightChild);
+        
+********************************************************************************************************* 
+#Hight
+def traverse(self):
+        if self.root:
+            self.getHight(self.root);
+            
+            # O(N)
+    def getHight(self, node):
+        
+        if node==None:
+            return 0
+            
+        lHight = self.getHight(node.leftChild)   
+        RHight = self.getHight(node.rightChild)
+        return 1+ max(lHight,RHight)
+        
+********************************************************************************************************* 
+#getLeafNode
+def traverse(self):
+	if self.root:
+		self.getLeafNode(self.root);
+		
+		# O(N)
+def getLeafNode(self, node):
+	
+	if node!=None:
+		if node.leftChild==None and node.rightChild==None:
+			print(node.data)
+		
+		self.getLeafNode(node.leftChild)   
+		self.getLeafNode(node.rightChild)
+
+********************************************************************************************************* 
+#Level Order Traversal
+	class Node: 
+		def __init__(self ,key): 
+			self.data = key 
+			self.left = None
+			self.right = None
+	  
+	def printLevelOrder(root): 
+		if root is None: 
+			return
+		queue = [] 
+	  
+		queue.append(root) 
+	  
+		while(len(queue) > 0): 
+			print(queue[0].data) 
+			node = queue.pop(0) 
+	  
+			if node.left is not None: 
+				queue.append(node.left) 
+	  
+			if node.right is not None: 
+				queue.append(node.right) 
+	  
+	root = Node(1) 
+	root.left = Node(2) 
+	root.right = Node(3) 
+	root.left.left = Node(4) 
+	root.left.right = Node(5) 
+	  
+	print(printLevelOrder(root)) 
+
+
+#Level Order traversal in New Line 
+class Node: 
+    def __init__(self ,key): 
+        self.data = key 
+        self.left = None
+        self.right = None
+  
+def printLevelOrder(root): 
+    if root is None: 
+        return
+    queue = [] 
+  
+    queue.append(root) 
+    queue.append(None)
+  
+    while(len(queue) > 0): 
+        if queue[0] == None:
+            queue.pop(0)   
+            break
+        else:
+            print(queue[0].data) 
+            node = queue.pop(0) 
+
+        if node.left is not None: 
+            queue.append(node.left) 
+  
+        if node.right is not None: 
+            queue.append(node.right)
+            
+        if queue[0] == None:
+            queue.pop(0) 
+            print('\n')
+            queue.append(None)
+  
+root = Node(1) 
+root.left = Node(2) 
+root.right = Node(3) 
+root.left.left = Node(4) 
+root.left.right = Node(5) 
+root.right.left= Node(6)
+root.right.left.left = Node(7)
+print(printLevelOrder(root)) 
+
+********************************************************************************************************* 
+#zizagtraversal
+class Node: 
+    # Constructor to create a new node 
+    def __init__(self, data): 
+        self.data = data 
+        self.left = self.right = None
+  
+  
+# function to print zigzag traversal of  
+# binary tree 
+def zizagtraversal(root): 
+  
+    # Base Case 
+    if root is None: 
+        return
+  
+    # Create two stacks to store current 
+    # and next level 
+    currentLevel = [] 
+    nextLevel = [] 
+  
+    # if ltr is true push nodes from  
+    # left to right otherwise from 
+    # right to left 
+    ltr = True
+  
+    # append root to currentlevel stack 
+    currentLevel.append(root) 
+  
+    # Check if stack is empty 
+    while len(currentLevel) > 0: 
+        # pop from stack 
+        temp = currentLevel.pop(-1) 
+        # print the data 
+        print(temp.data, " ", end="") 
+  
+        if ltr: 
+            # if ltr is true push left  
+            # before right 
+            if temp.left: 
+                nextLevel.append(temp.left) 
+            if temp.right: 
+                nextLevel.append(temp.right) 
+        else: 
+            # else push right before left 
+            if temp.right: 
+                nextLevel.append(temp.right) 
+            if temp.left: 
+                nextLevel.append(temp.left) 
+  
+        if len(currentLevel) == 0: 
+            # reverse ltr to push node in 
+            # opposite order 
+            ltr = not ltr 
+            # swapping of stacks 
+            currentLevel, nextLevel = nextLevel, currentLevel 
+  
+  
+# Driver program to check above function 
+root = Node(1) 
+root.left = Node(2) 
+root.right = Node(3) 
+root.left.left = Node(7) 
+root.left.right = Node(6) 
+root.right.left = Node(5) 
+root.right.right = Node(4) 
+print("Zigzag Order traversal of binary tree is") 
+zizagtraversal(root) 
+********************************************************************************************************* 
+#Left View
+class Node: 
+    def __init__(self ,key): 
+        self.data = key 
+        self.left = None
+        self.right = None
+  
+def printLevelOrder(root): 
+    if root is None: 
+        return
+    queue = [] 
+  
+    queue.append(root) 
+    queue.append(None)
+    is_First = True 
+      
+    while(len(queue) > 0): 
+        if queue[0] == None:
+            queue.pop(0)   
+            break
+            
+        if is_First:
+            print(queue[0].data)
+            is_First=False
+            
+        node = queue.pop(0)     
+        
+        if node.left is not None: 
+            queue.append(node.left) 
+  
+        if node.right is not None: 
+            queue.append(node.right)
+            
+        if queue[0] == None:
+            queue.pop(0) 
+            print('\n')
+            queue.append(None)
+            is_First=True
+  
+root = Node(1) 
+root.left = Node(2) 
+root.right = Node(3) 
+root.left.left = Node(4) 
+root.left.right = Node(5) 
+root.right.left= Node(6)
+root.right.left.left = Node(7)
+print(printLevelOrder(root)) 
+
+********************************************************************************************************* 
+
+
+********************************************************************************************************* 
+#Right View
+class Node: 
+    def __init__(self ,key): 
+        self.data = key 
+        self.left = None
+        self.right = None
+  
+def printLevelOrder(root): 
+    if root is None: 
+        return
+    queue = [] 
+  
+    queue.append(root) 
+    queue.append(None)
+    is_Last = True 
+      
+    while(len(queue) > 0): 
+        if queue[0] == None:
+            queue.pop(0)   
+            break
+            
+        if is_Last:
+            print(queue[0].data)
+            is_Last=False
+            
+        node = queue.pop(0)     
+        
+        if node.right is not None: 
+            queue.append(node.right)
+      
+        if node.left is not None: 
+            queue.append(node.left) 
+  
+      
+            
+        if queue[0] == None:
+            queue.pop(0) 
+            print('\n')
+            queue.append(None)
+            is_Last=True
+  
+root = Node(1) 
+root.left = Node(2) 
+root.right = Node(3) 
+root.left.left = Node(4) 
+root.left.right = Node(5) 
+root.right.left= Node(6)
+root.right.left.left = Node(7)
+root.left.right.left = Node(8)
+root.left.right.left.right = Node(9)
+
+print(printLevelOrder(root)) 
+
+********************************************************************************************************* 	
+#vertical Order Traverse
+class Node: 
+    # Constructor to create a new node 
+    def __init__(self, data): 
+        self.data = data 
+        self.left = self.right = None
+  
+# function to print vertical order traversal of binary tree 
+def verticalTraverse(root): 
+  
+    # Base case 
+    if root is None: 
+        return
+  
+    # Create empty queue for level order traversal 
+    queue = [] 
+  
+    # create a map to store nodes at a particular 
+    # horizontal distance 
+    m = {} 
+  
+    # map to store horizontal distance of nodes 
+    hd_node = {} 
+  
+    # enqueue root 
+    queue.append(root) 
+    # store the horizontal distance of root as 0 
+    hd_node[root] = 0
+  
+    m[0] = [root.data] 
+  
+    # loop will run while queue is not empty 
+    while len(queue) > 0: 
+  
+        # dequeue node from queue 
+        temp = queue.pop(0) 
+  
+        if temp.left: 
+            # Enqueue left child 
+            queue.append(temp.left) 
+  
+            # Store the horizontal distance of left node 
+            # hd(left child) = hd(parent) -1 
+            hd_node[temp.left] = hd_node[temp] - 1
+            hd = hd_node[temp.left] 
+  
+            if m.get(hd) is None: 
+                m[hd] = [] 
+  
+            m[hd].append(temp.left.data) 
+  
+        if temp.right: 
+            # Enqueue right child 
+            queue.append(temp.right) 
+  
+            # store the horizontal distance of right child 
+            # hd(right child) = hd(parent) + 1 
+            hd_node[temp.right] = hd_node[temp] + 1
+            hd = hd_node[temp.right] 
+  
+            if m.get(hd) is None: 
+                m[hd] = [] 
+  
+            m[hd].append(temp.right.data) 
+  
+    # Sort the map according to horizontal distance 
+    sorted_m = collections.OrderedDict(sorted(m.items())) 
+  
+    # Traverse the sorted map and print nodes at each horizontal distance 
+    for i in sorted_m.values(): 
+        for j in i: 
+            print(j, " ", end="") 
+        print() 
+  
+# Driver program to check above function 
+""" 
+Constructed binary tree is  
+            1 
+        / \ 
+        2     3 
+    / \ / \ 
+    4     5 6     7 
+            \ / \ 
+            8 10 9 
+                \ 
+                11 
+                    \  
+                    12 
+                  
+"""
+root = Node(1) 
+root.left = Node(2) 
+root.right = Node(3) 
+root.left.left = Node(4) 
+root.left.right = Node(5) 
+root.right.left = Node(6) 
+root.right.right = Node(7) 
+root.right.left.right =Node(8) 
+root.right.right.left = Node(10) 
+root.right.right.right = Node(9) 
+root.right.right.left.right = Node(11) 
+root.right.right.left.right.right = Node(12) 
+print("Vertical order traversal is ") 
+verticalTraverse(root) 
+
+********************************************************************************************************* 	
+#All Ancestors
+class Node: 
+  
+    def __init__(self, data): 
+        self.data = data  
+        self.left = None
+        self.right = None
+  
+# If target is present in tree, then prints the ancestors 
+# and returns true, otherwise returns false 
+def printAncestors(root, target): 
+      
+    # Base case 
+    if root == None: 
+        return False 
+      
+    if root.data == target: 
+        return True 
+  
+    # If target is present in either left or right subtree  
+    # of this node, then print this node 
+    if (printAncestors(root.left, target) or 
+        printAncestors(root.right, target)): 
+        print (root.data)
+        return True
+  
+    # Else return False  
+    return False
+  
+# Driver program to test above function 
+root = Node(1) 
+root.left = Node(2) 
+root.right = Node(3) 
+root.left.left = Node(4) 
+root.left.right = Node(5) 
+root.left.left.left = Node(7) 
+  
+printAncestors(root, 7) 
+	
+********************************************************************************************************* 
+#lowestCommanAncestor of Binary Tree(not binary search tree)
+class Node: 
+    def __init__(self, data): 
+        self.data = data  
+        self.left = None
+        self.right = None
+    
+def lowestCommanAncestor(root, target1,target2): 
+      
+    if root == None: 
+        return None 
+      
+    if root.data == target1 or root.data == target2: 
+        return root 
+  
+    left_lca=lowestCommanAncestor(root.left, target1,target2)
+    right_lca=lowestCommanAncestor(root.right, target1,target2)
+    
+    if left_lca and right_lca:
+        print (root.data)
+        return root
+    return left_lca if left_lca is not None else right_lca     
+	
+	#if left_lac:
+	#	return left_lca
+	#else:
+	#	return right_lca
+  
+root = Node(1) 
+root.left = Node(2) 
+root.right = Node(3) 
+root.left.left = Node(4) 
+root.left.right = Node(5) 
+root.left.left.left = Node(7) 
+  
+lowestCommanAncestor(root,7,5) 	
+*********************************************************************************************************
+#lowestCommanAncestor of Binary Search Tree
+class Node: 
+    def __init__(self, val): 
+        self.val = val
+        self.left = None
+        self.right = None
+    
+def lowestCommonAncestor(root, p,q): 
+    
+    if root.val > max(p.val,q.val):
+        return lowestCommonAncestor(root.left, p, q)
+    elif root.val < min(p.val,q.val):
+        return lowestCommonAncestor(root.right, p, q)
+    else:
+        return root
+
+root = Node(6) 
+root.left = Node(2) 
+root.right = Node(8) 
+root.left.left = Node(0) 
+root.left.right = Node(4) 
+root.left.right.left = Node(3) 
+root.right.left = Node(7)
+root.right.right = Node(9)
+
+lowestCommonAncestor(root,root.left.left,root.left.right.left)
+********************************************************************************************************* 	
+#areSiblings
+class Node: 
+    def __init__(self, data): 
+        self.data = data  
+        self.left = None
+        self.right = None
+    
+def areSiblings(root, target1,target2): 
+      
+    if root == None: 
+        return False 
+    
+    if root.left and root.right:  
+        if root.left.data == target1 and root.right.data == target2 or root.left.data == target2 and root.right.data == target1: 
+            print (root.data)
+            return True 
+            break
+  
+    areSiblings(root.left, target1,target2)
+    areSiblings(root.right, target1,target2)
+     
+root = Node(1) 
+root.left = Node(2) 
+root.right = Node(3) 
+root.left.left = Node(4) 
+root.left.right = Node(5) 
+root.right.left = Node(7)
+root.right.right = Node(8)
+  
+areSiblings(root,8,7) 
+********************************************************************************************************* 	
+#PrintNodeKDistanceAway
+class Node: 
+    def __init__(self, data): 
+        self.data = data  
+        self.left = None
+        self.right = None
+    
+def PrintNodeKDistanceAway(root,k): 
+      
+    if root == None: 
+        return False 
+    
+    if k==0:
+        print (root.data)
+    else:    
+        PrintNodeKDistanceAway(root.left,k-1)
+        PrintNodeKDistanceAway(root.right, k-1)
+    
+root = Node(1) 
+root.left = Node(2) 
+root.right = Node(3) 
+root.left.left = Node(4) 
+root.left.right = Node(5) 
+root.right.left = Node(7)
+root.right.right = Node(8)
+  
+PrintNodeKDistanceAway(root,2)
+********************************************************************************************************* 	
+#PrintAllPaths  #Stack
+class Node: 
+    def __init__(self, data): 
+        self.data = data  
+        self.left = None
+        self.right = None
+    
+
+def travers(root):
+    stack = []
+    PrintAllpaths(root,stack)
+    
+def PrintAllpaths(root,stack): 
+      
+    if root == None: 
+        return  
+    
+    stack.append(root.data)
+    
+    PrintAllpaths(root.left,stack)
+    
+    if root.left == None and root.right == None:
+        print(stack)
+    
+    PrintAllpaths(root.right,stack)
+    
+    stack.pop(-1)
+    
+    
+root = Node(1) 
+root.left = Node(2) 
+root.right = Node(3) 
+root.left.left = Node(4) 
+root.left.right = Node(5) 
+root.right.left = Node(7)
+root.right.right = Node(8)
+  
+  
+travers(root)
+********************************************************************************************************* 	
+#AreAllLeavesAtSameLevel
+class Node: 
+    def __init__(self, data): 
+        self.data = data  
+        self.left = None
+        self.right = None
+    
+    
+def travers(root): 
+    travers.maxe=0
+    return AreAllLeavesAtSameLevel(root,0)
+    
+def AreAllLeavesAtSameLevel(root,level): 
+     
+    if root == None: 
+        return True 
+    
+    if root.left==None and root.right==None:
+        if travers.maxe==0:
+            travers.maxe=level
+            return True
+        return travers.maxe==level
+		 
+    return AreAllLeavesAtSameLevel(root.left,level+1) and AreAllLeavesAtSameLevel(root.right,level+1)
+
+    
+root = Node(1) 
+root.left = Node(2) 
+root.right = Node(3) 
+root.left.left = Node(4) 
+root.left.right = Node(5) 
+root.right.left = Node(7)
+root.right.right = Node(8)
+root.right.right.right = Node(9)
+
+
+if(travers(root)): 
+    print ("Leaves are at same level")
+else: 
+    print ("Leaves are not at same level")
+********************************************************************************************************* 	
+#Find if two trees are Cousins
+class Node: 
+    def __init__(self, data): 
+        self.data = data 
+        self.left = None
+        self.right = None
+  
+def isSibling(root, a , b): 
+    if root is None: 
+        return 0
+  
+    return ((root.left == a and root.right ==b) or 
+            (root.left == b and root.right == a)or
+            isSibling(root.left, a, b) or
+            isSibling(root.right, a, b)) 
+  
+def level(root, ptr, lev): 
+      
+    if root is None : 
+        return 0 
+    if root == ptr:  
+        return lev 
+
+    l = level(root.left, ptr, lev+1) 
+    if l != 0: 
+        return l 
+
+    return level(root.right, ptr, lev+1) 
+  
+def isCousin(root,a, b): 
+      
+    if ((level(root,a,1) == level(root, b, 1)) and 
+            not (isSibling(root, a, b))): 
+        return 1
+    else: 
+        return 0 
+  
+root = Node(1) 
+root.left = Node(2) 
+root.right = Node(3) 
+root.left.left = Node(4) 
+root.left.right = Node(5) 
+root.left.right.right = Node(15) 
+root.right.left = Node(6) 
+root.right.right = Node(7) 
+root.right.left.right = Node(8) 
+  
+node1 = root.left.right 
+node2 = root.right.right  
+  
+if isCousin(root, node1, node2) == 1:
+    print("Yes")
+else:
+    print("No")
+
+********************************************************************************************************* 	
+#Top View
+class Node():
+    
+    def __init__(self,data):
+        self.data=data
+        self.left=None
+        self.right=None
+        
+        
+def topView(root):
+    
+    if root==None:
+        return
+        
+    queue=[]
+    m={}
+    hd_dict={}
+    
+    queue.append(root)
+    hd_dict[root]=0
+    m[0]=[root.data]
+    
+    while len(queue) > 0 :
+        
+        node=queue.pop(0)
+        
+        if node.left:
+            queue.append(node.left)
+            
+            hd_dict[node.left] = hd_dict[node] - 1
+            hd = hd_dict[node.left]
+            
+            if m.get(hd) is None:
+                m[hd]= []
+                
+            m[hd].append(node.left.data)    
+            
+        if node.right:
+            queue.append(node.right)
+            
+            hd_dict[node.right]=hd_dict[node] + 1
+            hd = hd_dict[node.right]
+            
+            if m.get(hd) is None:
+                m[hd]= []
+            
+            m[hd].append(node.right.data)
+            
+            
+    for key,value in m.items():
+        print(value[0])
+
+root = Node(1)
+root.left = Node(2)
+root.right = Node(3)
+root.left.right = Node(4)
+root.left.right.right = Node(5)
+root.left.right.right.right = Node(6)
+
+topView(root)	
+*********************************************************************************************************
+class newNode: 
+    def __init__(self, data): 
+        self.data = data  
+        self.left = self.right = None
+      
+def findMax(root): 
+      
+    if (root == None):  
+        return -999999999999
+  
+    res = root.data 
+    lres = findMax(root.left)  
+    rres = findMax(root.right)  
+    if (lres > res): 
+        res = lres  
+    if (rres > res):  
+        res = rres  
+    return res 
+  
+if __name__ == '__main__': 
+    root = newNode(2)  
+    root.left    = newNode(7)  
+    root.right   = newNode(5)  
+    root.left.right = newNode(6)  
+    root.left.right.left=newNode(1)  
+    root.left.right.right=newNode(11)  
+    root.right.right=newNode(9)  
+    root.right.right.left=newNode(4)  
+  
+    print("Maximum element is",findMax(root))  
+********************************************************************************************************* 
+#isSymmetric
+class Node: 
+    def __init__(self ,key): 
+        self.val = key 
+        self.left = None
+        self.right = None
+  
+def isSymmetric(root):
+        if root is None:
+            return True
+        else:
+            return isMirror(root.left, root.right)
+
+def isMirror(left,right):
+    if left == None and right == None:
+        return True
+    if left == None or right == None:
+        return False
+    if left.val==right.val:
+        if isMirror(left.left,right.right) and isMirror(left.right,right.left):
+            return True
+
+    return False
+        
+root = Node(1) 
+root.left = Node(2) 
+root.right = Node(2) 
+root.left.left = Node(3) 
+root.left.right = Node(4) 
+root.right.left= Node(4)
+root.right.right = Node(3)
+isSymmetric(root) 
+  

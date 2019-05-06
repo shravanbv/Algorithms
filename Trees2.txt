@@ -1,0 +1,300 @@
+#predessor
+class Node: 
+    def __init__(self, data): 
+        self.data = data  
+        self.left = None
+        self.right = None
+    
+def searchInBST(root, p): 
+    #case2
+    s=root
+    while(p!=s.data):
+        if p>s.data:
+            store=s
+            s=s.right
+        else:
+            s=s.left
+    print(store.data)
+    
+            
+    
+    if root.data==p:
+        return predessorCase1(root) 
+    else:
+        if p<root.data:
+            searchInBST(root.left,p)
+        else:
+            searchInBST(root.right,p)
+        
+def predessorCase1(p):    
+    if p.left:
+        temp=p.left
+        while temp.right != None:
+            temp=temp.right
+        print(temp.data)    
+        return temp
+       
+root = Node(50) 
+root.left = Node(16) 
+root.right = Node(90) 
+root.left.left = Node(10) 
+root.left.right = Node(40) 
+root.left.right.right = Node(45) 
+root.left.right.left = Node(35) 
+root.left.right.left.right = Node(36)
+root.left.right.left.right.right = Node(37)
+lowestCommanAncestor(root,37)
+********************************************************************************************************
+
+#successor
+class Node: 
+    def __init__(self, data): 
+        self.data = data  
+        self.left = None
+        self.right = None
+    
+def searchInBST(root, p): 
+    #case2
+    s=root
+    while(p!=s.data):
+        if p<s.data:
+            store=s
+            s=s.left
+        else:
+            s=s.right
+    print(store.data)
+    
+    if root.data==p:
+        return successorCase1(root) 
+    else:
+        if p<root.data:
+            searchInBST(root.left,p)
+        else:
+            searchInBST(root.right,p)
+        
+def successorCase1(p):    
+    if p.right:
+        temp=p.right
+        while temp.left != None:
+            temp=temp.left
+        print(temp.data)    
+        return temp
+       
+root = Node(50) 
+root.left = Node(16) 
+root.right = Node(90) 
+root.left.left = Node(10) 
+root.left.right = Node(40) 
+root.left.right.right = Node(45) 
+root.left.right.left = Node(35) 
+root.left.right.left.right = Node(36)
+root.left.right.left.right.right = Node(37)
+searchInBST(root,37)
+********************************************************************************************************
+#DIameter
+class Node: 
+    def __init__(self, data): 
+        self.data = data  
+        self.left = None
+        self.right = None
+      
+def diameter(root):
+    
+    if root == None:
+        return 0
+        
+    lhight = hight(root.left)   
+    rhight = hight(root.right)
+    
+    ldiameter = diameter(root.left)
+    rdiameter = diameter(root.right)
+    
+    finalDiameter=max(lhight+rhight+1,max(ldiameter,rdiameter))
+    return finalDiameter
+    
+def hight(root):
+    
+    if root == None:
+        return 0
+        
+    l = hight(root.left)   
+    r = hight(root.right)
+    
+    return 1+max(l,r)
+    
+   
+root = Node(50) 
+root.left = Node(16) 
+root.right = Node(90) 
+root.left.left = Node(10) 
+root.left.right = Node(40) 
+root.left.right.right = Node(45) 
+root.left.right.left = Node(35) 
+root.left.right.left.right = Node(36)
+root.left.right.left.right.right = Node(37)
+diameter(root)
+********************************************************************************************************
+#isomorphic
+class Node: 
+    def __init__(self, data): 
+        self.data = data  
+        self.left = None
+        self.right = None
+      
+def isomorphic(root1,root2):
+    
+    if root1 == None and root2 == None:
+        return True
+    if root1 == None or root2 == None:
+        return False
+    if root1.data != root2.data:
+        return False
+    if ((((isomorphic(root1.left,root2.left)) and (isomorphic(root1.right,root2.right))) or ((isomorphic(root1.left,root2.right)) and (isomorphic(root1.right,root2.left))))
+        return True
+        
+root1 = Node(50) 
+root1.left = Node(16) 
+root1.right = Node(90) 
+root1.left.left = Node(10) 
+root1.left.right = Node(40) 
+root1.left.right.right = Node(45) 
+root1.left.right.left = Node(35) 
+root1.left.right.left.right = Node(36)
+root1.left.right.left.right.right = Node(37)
+
+root2 = Node(50) 
+root2.left = Node(16) 
+root2.right = Node(90) 
+root2.left.left = Node(10) 
+root2.left.right = Node(40) 
+root2.left.right.right = Node(45) 
+root2.left.right.left = Node(35) 
+root2.left.right.left.right = Node(36)
+root2.left.right.left.right.right = Node(37)
+isomorphic(root1,root2)
+********************************************************************************************************
+#deleteBST
+class Node: 
+    def __init__(self, data): 
+        self.data = data  
+        self.left = None
+        self.right = None
+      
+def deleteBST(root1):
+    
+    if root1.left == None and root1.right == None :
+        return None
+    root1.left=deleteBST(root1.left)
+    root1.right=deleteBST(root1.right)
+    return root1
+    
+        
+root1 = Node(50) 
+root1.left = Node(16) 
+root1.right = Node(90) 
+root1.left.left = Node(10) 
+root1.left.right = Node(40) 
+
+deleteBST(root1)
+********************************************************************************************************
+#sum path
+class Node: 
+    def __init__(self, data): 
+        self.data = data  
+        self.left = None
+        self.right = None
+                
+def traverse(root,key):
+    sum=0
+    stack=[]
+    sumpath(root,key,stack,sum)
+      
+def sumpath(root,key,stack,sum):
+    
+    if root==None:
+        return 
+    sum=sum+root.data
+    stack.append(root.data)
+    if sum==key:
+        print(stack)
+        
+    sumpath(root.left,key,stack,sum)
+    sumpath(root.right,key,stack,sum)
+    
+    sum=sum-root.data
+    stack.pop()
+           
+root = Node(50) 
+root.left = Node(16) 
+root.right = Node(90) 
+root.left.left = Node(10) 
+root.left.right = Node(40) 
+root.right.left = Node(85)
+root.right.right = Node(100)
+
+traverse(root,225)
+********************************************************************************************************
+#Sum Of left Leaves
+class Node: 
+    def __init__(self, data): 
+        self.data = data  
+        self.left = None
+        self.right = None
+      
+def sumOfleftLeaves(root):
+    
+    if root==None:
+        return 0
+        
+    elif root.left != None and root.left.left == None and root.left.right == None:
+        return root.left.data + sumOfleftLeaves(root.right)  
+    else:
+        return sumOfleftLeaves(root.left) + sumOfleftLeaves(root.right)
+           
+root = Node(3) 
+root.left = Node(9) 
+root.right = Node(20) 
+#root.left.left = Node(10) 
+#root.left.right = Node(40) 
+root.right.left = Node(15)
+root.right.right = Node(7)
+
+sumOfleftLeaves(root)
+********************************************************************************************************
+#BST isBalanced
+class Node: 
+    def __init__(self, data): 
+        self.data = data 
+        self.left = self.right = None
+  
+def isBalanced(root): 
+    
+    if root is None: 
+        return 0
+  
+    l = isBalanced(root.left) 
+    r = isBalanced(root.right) 
+    
+	if l == -1 or r == -1:
+        return -1
+        
+    if abs(l - r) > 1: 
+        return -1
+    
+    return 1+ max(l,r)  
+  
+  
+root = Node(1) 
+root.left = Node(2) 
+root.right = Node(3) 
+root.left.left = Node(4) 
+root.left.right = Node(5) 
+root.right.left = Node(6) 
+root.left.left.left = Node(7) 
+root.left.left.left.left = Node(8)
+  
+isBalanced(root)
+    
+********************************************************************************************************
+********************************************************************************************************
+********************************************************************************************************

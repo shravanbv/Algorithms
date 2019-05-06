@@ -1,0 +1,592 @@
+def checkDuplicatesWithinK(arr,k):
+
+    for i in range(0,len(arr)-1):
+       
+        j=i+1
+        rep=0
+        while rep<k and j<len(arr):
+            if arr[i]==arr[j]:
+                return True
+     
+            j+=1
+            rep+=1
+    return False     
+checkDuplicatesWithinK([2, 4, 1, 3, 2, 1, 4, 1], 3)	
+
+def checkDuplicatesWithinK(arr,k):
+    myset = set()
+    for i in range(len(arr)):
+        if arr[i] in myset:
+            return True
+            
+        myset.add(arr[i])
+        
+        if (i >= k):
+            d=arr[i-k]
+            myset.remove(d)
+    
+    return False
+checkDuplicatesWithinK([2, 4, 1, 3, 2, 1, 4, 1], 3)
+
+*********************************************************************************************************
+
+def SortArrayWaveFormLinear(nums):
+	for i in range(0,len(nums),2):
+		if i+1==len(nums):
+			break
+			
+		#even place greater	
+		if nums[i]<nums[i+1]:
+			nums[i],nums[i+1]=nums[i+1],nums[i]
+			
+		if i+2==len(nums):
+			break
+		
+		#odd place smaller	
+		if nums[i+1]>nums[i+2]:
+			nums[i+1],nums[i+2]=nums[i+2],nums[i+1]
+	 
+	 
+	 
+SortArrayWaveFormLinear([1,2,5,4,5,8])   
+
+arr=[1,2,3,4,5,6]
+for i in range(0,len(arr),2):
+    arr[i],arr[i+1]=arr[i+1],arr[i]
+
+*********************************************************************************************************
+https://www.geeksforgeeks.org/find-whether-an-array-is-subset-of-another-array-set-1/
+O(mLogm + nLogn) 	
+
+def isSubset(arr1, arr2):
+    i=0 j=0
+    m=len(arr1)
+    n=len(arr2)
+    if n>m:
+        return False
+    
+    arr1=sorted(arr1)
+    arr2=sorted(arr2)
+
+    while i < n and j < m: 
+        if arr1[j] < arr2[i]: 
+            j+=1; 
+        elif arr1[j] > arr2[i]: 
+            return False 
+		elif arr1[j] == arr2[i]: 
+            j+=1; 
+            i+=1;  	
+
+    if i < n:
+        return False 
+    else:
+        return True 
+
+isSubset([11, 1, 13, 21, 3, 7],[11, 3, 7, 1])
+
+
+#dosent work for duplicates
+def isSubset(arr1,arr2):
+    m=len(arr1)
+    n=len(arr2)
+    if n>m:
+        return False
+    s=set()
+          
+    for i in range(0,len(arr1)):
+        if arr1[i] not in s:
+            s.add(arr1[i])
+           
+    for i in range(0,len(arr2)):
+        if arr2[i] not in s:
+            return False
+        
+    return True 
+        
+isSubset([11, 1, 13, 21, 3, 7],[11, 3, 7, 1])
+*********************************************************************************************************
+def SortArrayWhichIsSortedInHalf(arr):
+    ptr1 = 0
+    ptr2 = len(arr)//2
+    temp=[]
+    index=0
+    
+    while ptr1 < len(arr)/2 and ptr2 < len(arr):
+        if arr[ptr1] < arr[ptr2]:
+            temp.append(arr[ptr1])
+            #index+=1
+            ptr1+=1
+        else:
+            temp.append(arr[ptr2])
+            #index+=1
+            ptr2+=1
+           
+    while ptr1<len(arr)//2:
+        temp.append(arr[ptr1])
+        #index+=1
+        ptr1+=1
+        
+    while ptr2<len(arr):
+        temp.append(arr[ptr2])    
+        #index+=1
+        ptr2+=1
+           
+    for i in range(0,len(arr)):
+        arr[i]= temp[i]
+        
+    return arr     
+        
+SortArrayWhichIsSortedInHalf([1,3,6,2,4,8])       
+********************************************************************************************************* 
+def CeilingSortedArray(arr,low,high,x):
+    
+    mid = (low + high)//2; 
+    if arr[mid] == x: 
+        return mid   
+    elif arr[mid] < x: 
+        if mid + 1 <= high and x <= arr[mid+1]: 
+            return mid + 1
+        else: 
+            return CeilingSortedArray(arr, mid+1, high, x)  
+    else: 
+        if mid - 1 >= low and x > arr[mid-1]: 
+            return mid 
+        else: 
+            return CeilingSortedArray(arr, low, mid - 1, x) 
+            
+arr=[1, 2, 2, 2, 2, 3, 4, 7 ,8 ,8]    
+n=len(arr)-1     
+CeilingSortedArray(arr,0,n,5)
+********************************************************************************************************* 
+def FloorSortedArray(arr,x):
+    
+    start=0
+    end=len(arr)-1
+    
+    while end>start:
+        
+        mid = (start+end)//2; 
+        if arr[mid] == x: 
+            return mid   
+        elif arr[mid] < x: 
+            if mid + 1 <= end and arr[mid+1]>x: 
+                return mid
+            else: 
+                start=mid+1  
+        else: 
+            if mid - 1 >= start and arr[mid-1]<x: 
+                return mid-1 
+            else:
+                end=mid-1
+                
+arr=[1, 2, 2, 2, 2, 3, 5, 7 ,8 ,8]    
+n=len(arr)-1     
+FloorSortedArray(arr,4)
+********************************************************************************************************* 
+def printKclosest(arr, x, k):
+    arr=sorted(arr)
+    left=FloorSortedArray(arr,x)
+    right=left+1
+    count=0
+    
+    if right == len(arr):
+        while count<k:
+            print(arr[right])
+            right-=1
+    if left==0:
+        while count<k:
+            print(arr[left])
+            left+=1
+            
+    while count<k:
+        if left<0:
+            print(arr[right],",")
+            right+=1
+        elif right == len(arr):
+            print(arr[left],",")
+            left-=1
+        elif abs(arr[left]-x) < abs(arr[right]-x):
+            print(arr[left],",")
+            left-=1
+        else:
+            print(arr[right],",")
+            right+=1
+        count+=1    
+                        
+def FloorSortedArray(arr,x):
+    start=0
+    end=len(arr)-1
+    while end>start:
+        mid = (start+end)//2; 
+        if arr[mid] == x: 
+            return mid   
+        elif arr[mid] < x: 
+            if mid + 1 <= end and arr[mid+1]>x: 
+                return mid
+            else: 
+                start=mid+1  
+        else: 
+            if mid - 1 >= start and arr[mid-1]<x: 
+                return mid-1 
+            else:
+                end=mid-1    
+                
+arr = [-1,1,2,3,5,8,9,15,22]
+printKclosest(arr,2,4)                
+
+********************************************************************************************************* 
+def printKclosest(arr, x, k):
+    arr=sorted(arr)
+    left=FloorSortedArray(arr,x)
+    right=left+1
+    count=0
+    
+    if right == len(arr):
+        while count<k:
+            print(arr[right])
+            right-=1
+    if left==0:
+        while count<k:
+            print(arr[left])
+            left+=1
+            
+    while left >= 0 and right < len(arr) and count < k: 
+        if x - arr[left] < arr[right] - x: 
+                print(arr[left], end = " ")  
+                left -= 1
+        else : 
+            print(arr[right], end = " ")  
+            right += 1
+        count += 1
+    
+	# If there are no more elements on right  
+    # side, then print left elements  
+    while (count < k and left >= 0	) : 
+        print(arr[left], end = " ") 
+        l -= 1
+        count += 1
+  
+    # If there are no more elements on left  
+    # side, then print right elements  
+    while (count < k and right < n) :  
+        print(arr[right], end = " ") 
+        right += 1
+        count += 1
+                        
+arr = [12, 16, 22, 30, 35, 39, 42, 45, 48, 50, 53, 55, 56]
+printKclosest(arr,2,4)                
+
+********************************************************************************************************* 
+def minDist(arr, n, x, y): 
+    min_dist = 999999999999999
+  
+    for i in range(n): 
+        if arr[i] == x or arr[i] == y: 
+            prev = i 
+            break
+    
+	while i < n: 
+        if arr[i] == x or arr[i] == y: 
+          if arr[prev] != arr[i] and (i - prev) < min_dist : 
+                min_dist = i - prev 
+                prev = i 
+            else: 
+                prev = i 
+        i += 1        
+   
+    return min_dist 
+   
+arr = [6, 1,3] 
+n = len(arr) 
+x = 3
+y = 6
+print ("Minimum distance between %d and %d is %d\n"%( x, y,minDist(arr, n, x, y))); 
+  
+********************************************************************************************************* 
+def small_seconfsmall(arr):
+    smallest=min(arr[0],arr[1])
+    second_small=max(arr[0],arr[1])
+    
+    for value in range(2,len(arr)):
+        if arr[value] < smallest:
+            second_small = smallest
+            smallest=arr[value]
+        elif arr[value] < second_small:
+            second_small = arr[value]
+            
+    return smallest,second_small        
+            
+small_seconfsmall([5,4,3,1,2])      
+********************************************************************************************************* 
+#Squares of a sorted array
+def sortSquare(arr): 
+    n = len(arr) 
+    for k in range(n): 
+        if arr[k] >= 0:
+            break
+        
+    i = k-1; 
+    j = k;  
+    temp=[]
+    
+    while(i >= 0 and j < n):
+        if(arr[i] * arr[i] < arr[j] * arr[j]):
+            temp.append(arr[i] * arr[i])  
+            i-=1
+        else:
+            temp.append(arr[j] * arr[j])  
+            j+=1  
+           
+    while i==0:
+        temp.append(arr[i] * arr[i])
+        i-=1
+        
+    while j<n:
+        temp.append(arr[j] * arr[j])
+        j+=1  
+    
+    arr=temp    
+    return arr    
+         
+sortSquare([-6, -3, -1, 2, 4, 5] ) 
+********************************************************************************************************* 
+def maxDistance(arr, n): 
+    mp = {} 
+  
+    maxDict = 0
+    for i in range(n): 
+        if arr[i] not in mp.keys(): 
+            mp[arr[i]] = i 
+        else: 
+            x=mp[arr[i]]
+            maxDict = max(maxDict, i-mp[arr[i]]) 
+  
+    return maxDict 
+
+arr = [3, 2, 1, 2, 1, 4, 5, 8, 6, 7, 4, 2] 
+n = len(arr) 
+maxDistance(arr, n) 
+
+********************************************************************************************************* 
+# Peak Index in a mountain array
+def findPeakUtil(arr): 
+    low=0
+    high=len(arr)-1
+    while low<high:  
+        mid = (low+high)//2 
+        if arr[mid]<arr[mid+1]:
+            low=mid+1
+        else:
+            high=mid
+    return low  
+      
+findPeakUtil([1,2,1,3,5,6,4]) 
+********************************************************************************************************* 
+def modifyMatrix(mat) : 
+    row_flag = False
+    col_flag = False
+              
+    # updating the first row and col  
+    # if 1 is encountered 
+    for i in range(0, len(mat)) : 
+          
+        for j in range(0, len(mat)) : 
+            if (i == 0 and mat[i][j] == 0) : 
+                row_flag = True
+                      
+            if (j == 0 and mat[i][j] == 0) : 
+                col_flag = True
+              
+            if (mat[i][j] == 0) : 
+                mat[0][j] = 0
+                mat[i][0] = 0
+                  
+    # Modify the input matrix mat[] using the  
+    # first row and first column of Matrix mat 
+    for i in range(1, len(mat)) : 
+          
+        for j in range(1, len(mat)) : 
+            if (mat[0][j] == 0 or mat[i][0] == 0) : 
+                mat[i][j] = 0
+                  
+    # modify first row if there was any 1 
+    if (row_flag == True) : 
+        for i in range(0, len(mat)) : 
+            mat[0][i] = 0
+              
+    # modify first col if there was any 1 
+    if (col_flag == True) : 
+        for i in range(0, len(mat)) : 
+            mat[i][0] = 0
+              
+# A utility function to print a 2D matrix 
+def printMatrix(mat) : 
+      
+    for i in range(0, len(mat)) : 
+        for j in range(0, len(mat)) : 
+            print( mat[i][j], end = "" ) 
+          
+        print() 
+          
+# Driver Code 
+mat = [[1,1,1],[1,0,1],[1,1,1]] 
+modifyMatrix(mat) 
+      
+print("Matrix After Modification :") 
+printMatrix(mat) 
+********************************************************************************************************* 
+#Maximum Sum SubArray (Kadane's algorithm) (Largest Sum Contigous SubArray)
+#SumOfContiguousSubarray
+#https://www.youtube.com/watch?v=kekmCQXYwQ0
+def SumOfContiguousSubarray(arr):
+    max_ending_here = 0
+    max_sofar = 0
+    
+    start=0
+    end=0
+    s=0
+    
+    for i in range(len(arr)):
+        max_ending_here = max_ending_here + arr[i]
+        if max_sofar < max_ending_here:
+            max_sofar = max_ending_here 
+            start=s
+            end=i
+            
+        if max_ending_here < 0:
+            max_ending_here = 0
+            s=i+1
+               
+    return max_sofar        
+                
+SumOfContiguousSubarray([-2,1,-3,4,-1,2,1,-5,4]) 
+
+def SumOfContiguousSubarray(arr):
+    max_ending_here = 0
+    max_sofar = []
+    
+    for i in arr:
+        max_ending_here = max_ending_here + i
+        if max_ending_here < i:
+            max_ending_here = i
+       
+        max_sofar.append(max_ending_here)
+            
+    return max(max_sofar)        
+                
+SumOfContiguousSubarray([-2,1,-3,4,-1,2,1,-5,4]) 
+*********************************************************************************************************
+#return just longest len of Zero
+def maxLen(arr): 
+    hash_map = {} 
+    max_len = 0
+    curr_sum = 0
+  
+    for i in range(len(arr)): 
+          
+        curr_sum += arr[i] 
+  
+        if arr[i] is 0 and max_len is 0: 
+            max_len = 1
+  
+        if curr_sum is 0: 
+            max_len = i+1
+  
+        if curr_sum in hash_map: 
+            max_len = max(max_len, i - hash_map[curr_sum] ) 
+        else: 
+            hash_map[curr_sum] = i 
+  
+    return max_len 
+  
+arr = [15, -2, 2, -8, 1, 7, 10, 13] 
+   
+print("Length of the longest 0 sum subarray is %d" %  maxLen(arr) )
+
+*********************************************************************************************************
+#subarray sum to zero Return subarray of zero
+def maxLen(arr): 
+    sums = {} 
+    sum_ = 0
+    for i in range(len(arr)): 
+        old_index = sums.get(sum_)
+        if old_index == None  and i == len(arr):
+            return None
+        elif old_index == None:
+            sums[sum_]=i
+            sum_+=arr[i]
+        else:
+            return print(arr[old_index:i])
+    return None 
+  
+arr = [15, -2, -8,2, 1, 7, 10, 13] 
+#arr = [1,2,-5,1,2,-1]
+#arr = [1,-1,0,2]
+maxLen(arr)
+*********************************************************************************************************
+#Find Subarray with given Sum
+def maxSubarray(arr,k):
+    dict={}
+    sum_= 0
+    for i in range(len(arr)):
+        sum_ = sum_ + arr[i]
+        
+        if sum_ == k:
+            print("0"," ",i)
+            break
+        if sum_ - k in dict:
+            print(dict[sum_ - k]+1," ",i)
+            print(arr[dict[sum_ - k]+1:i+1])
+            break
+        dict[sum_] = i
+        
+    #print("Not Found")    
+            
+maxSubarray([3,2,7,1,6],10)  
+#output = 2,7,1     
+*********************************************************************************************************
+# Return just count(number of subarray = k) 
+#.get(sum_,0)-> if sum_ take sum_ or put zero
+def subarraySum(nums, k):
+        dict = {} 
+        dict[0]=1   
+        sum_ = 0
+        count = 0
+        for i in range(len(nums)): 
+
+            sum_+=nums[i]
+            x=dict.get(sum_-k)
+            if dict.get(sum_-k):
+                count += dict.get(sum_-k)
+            dict[sum_]= dict.get(sum_,0)+1    
+
+        return count 
+
+subarraySum([3,4,7,2,-3,1,4,2], 7)
+#output = 4		
+*********************************************************************************************************
+#degree of array
+def SumOfContiguousSubarray(nums):
+    dic = {}
+    for i in nums:
+        if i in dic:
+            dic[i] += 1
+        else:
+            dic[i] = 1
+    degree = max(dic.values())
+    if degree == 1:
+        return 1
+    max_vec = []
+    for i in dic:
+        if dic[i] == degree:
+            max_vec.append(i)
+            
+    shortest_len = float('inf')
+    for i in range(len(max_vec)):
+        temp = len(nums) - nums.index(max_vec[i]) - nums[::-1].index(max_vec[i])
+        shortest_len = min(shortest_len,temp)
+    return shortest_len
+SumOfContiguousSubarray([1,2,2,1,1,5,4,2]) 
+*********************************************************************************************************
+#longest increasing subsequence
+https://www.youtube.com/watch?v=E6us4nmXTHs

@@ -1,0 +1,404 @@
+*********************************************************************************************************
+def moveZeroes(nums):
+    
+    low=0
+    high=len(nums)-1
+    while low<=high:
+        if nums[low]==0:
+            nums[low],nums[high]=nums[high],nums[low]
+            high-=1
+        else:
+            low+=1
+            
+    return nums      
+    
+moveZeroes([2,0,2,1,1,0]) 
+
+#result in sorted list
+def moveZeroes(nums):
+    
+    n = len(nums)
+    j = 0
+    for i in range(n):
+        if nums[j] == 0 :
+            zeros = nums.pop(j)
+            nums.append(zeros)
+        else :
+            j = j + 1   
+            
+moveZeroes([0,1,0,3,12])            
+
+def moveZeroes(nums):
+    
+    n = len(nums)
+    index = 0
+    
+    for j in range(n):
+        if nums[j] != 0 :
+            temp = nums[index]
+            nums[index] = nums[j]
+            index+=1
+            nums[j] = temp
+            
+moveZeroes([0,1,0,3,12])  
+*********************************************************************************************************
+
+def DuchFlag(nums,target):
+    low=0
+    mid=0
+    high=len(nums)-1
+    while mid<=high:
+        
+        if nums[mid] < target:
+            nums[mid],nums[low]=nums[low],nums[mid]
+            mid+=1
+            low+=1
+        elif nums[mid]==target:
+            
+            mid+=1
+        else:
+            nums[mid],nums[high]=nums[high],nums[mid]
+            high-=1        
+    return nums      
+    
+DuchFlag([2,0,2,1,1,0],1)   
+*********************************************************************************************************
+def AreUnique(str):
+    s=set()
+    for i in str:
+        if i in s:
+            return False
+        else:
+            s.add(i)
+    return True      
+    
+AreUnique("adn")
+
+*********************************************************************************************************
+def reverse(nums,start,end):
+    while start<=end:
+        nums[start],nums[end]=nums[end],nums[start]
+        start+=1
+        end-=1
+    
+    
+def rotate(nums,n):
+    n=n % len(nums)
+    reverse(nums,0,len(nums)-1)
+    reverse(nums,0,n-1)
+    reverse(nums,n,len(nums)-1)
+    
+    return nums
+    
+rotate([1,2,3,4,5,6,7],3)    
+
+*********************************************************************************************************
+def isAnagram(str1,str2):
+    dict={}
+    for i in str1:
+        if i in dict:
+            dict[i]+=1
+        else:
+            dict[i]=1
+            
+    for j in str2:
+        if j in dict:
+            dict[j]-=1
+        else:
+            return False
+            
+    v=dict.values()
+    for i in v:
+        if i!=0:
+            return False
+    return True        
+            
+isAnagram("lol","oll") 
+*********************************************************************************************************
+def groupAnagrams(strs):
+    res = {}
+    for i in strs:
+        b = ''.join(sorted(i))
+        if b in res:
+            res[b] += [i]
+        else:
+            res[b] = [i]
+            
+    result=[]
+    for j in res:
+        result.append(res[j])
+    #return [res[i] for i in res]
+
+groupAnagrams(["eat", "tea", "tan", "ate", "nat", "bat"])
+*********************************************************************************************************
+#works for sorted array only
+def two_sum(nums,target):
+    nums=sorted(nums)
+    low=0
+    high=len(nums)-1
+    
+    while low<high:
+        if nums[low]+nums[high]==target:
+            return [low,high]
+        elif nums[low]+nums[high]<target:
+            low+=1
+        else:
+            high-=1
+        
+two_sum([3,6,9,12,13,4,5,8,7,1,2],3)
+
+def twoSum(nums, target):
+        if(len(nums) <= 1):
+            return
+        buff_dict = {}
+        for i in range(len(nums)):
+            temp = target - nums[i]
+            if temp in buff_dict:
+                return [buff_dict[temp],i]
+            else:
+                buff_dict[nums[i]] = i
+        return
+        
+twoSum([2, 7, 11, 15], 9) 
+*********************************************************************************************************
+#https://fizzbuzzed.com/top-interview-questions-1/
+#  O(n2log(n)
+def three_sum(s):
+    s = sorted(s) # O(nlogn)
+    output = set()
+    for k in range(len(s)):
+        target = -s[k]
+        i,j = k+1, len(s)-1
+        while i < j:
+            sum_two = s[i] + s[j]
+            if sum_two < target:
+                i += 1
+            elif sum_two > target:
+                j -= 1
+            else:
+                output.add((s[k],s[i],s[j]))
+                i += 1
+                j -= 1
+    return output
+three_sum([-1, 0, 1, 2, -1, -4])    
+
+#dict
+def three_sum(nums):
+	res=[]
+	n = len(nums) 
+	found = False
+	for i in range(n - 1): 
+
+		s = set() 
+		for j in range(i + 1, n): 
+			x = -(nums[i] + nums[j]) 
+			if x in s: 
+				
+				triplet=(x, nums[i], nums[j]) 
+				res.append(triplet)
+				found = True
+			else: 
+				s.add(nums[j])
+	return res
+*********************************************************************************************************
+
+def FindEquilibriumPoint(nums):
+    leftSum=0
+    sum=0
+    
+    for i in nums:
+        sum+=i
+        
+    for i in range(0,len(nums)-1):
+        sum=sum-nums[i]
+        if sum==leftSum:
+            return i
+        leftSum=leftSum+nums[i]
+    return -1    
+    
+FindEquilibriumPoint([-7, 1, 5, 2, -4, 3, 0])   
+
+*********************************************************************************************************
+def AreElementsConsecutive(nums):
+    min=nums[0]
+    max=nums[0]
+    
+    for i in range(1,len(nums)):
+        if nums[i]>max:
+            max=nums[i]
+        elif nums[i]<min:
+            min=nums[i]
+            
+    if (max-min+1) == len(nums):
+        return True
+    else:
+        return False
+      
+AreElementsConsecutive([3,4,5,1,2,7])         
+
+*********************************************************************************************************
+def FindCandidate(nums):
+    
+    candidate=nums[0]
+    count=1
+    
+    for i in range(1,len(nums)):
+        if nums[i]==candidate:
+            count+=1
+        else:
+            count-=1
+            if count==0:
+                candidate = nums[i]
+                count=1
+            
+    return candidate   
+    
+def MajorityElement(nums):
+    
+    candidate= FindCandidate(nums)
+    
+    count= FindCount(nums,candidate)
+    if count > len(nums)/2:
+        return candidate
+
+def FindCount(nums,candidate):
+    count=0
+    for i in nums:
+        if i == candidate:
+            count+=1
+    return count     
+    
+    
+MajorityElement([1,1,1,1,2,2,2,2,2,2,2,2,2,2,2,3,3,3,3,3])         
+
+*********************************************************************************************************
+
+def binarySearch(arr,x): 
+    low=0
+    high= len(arr)-1
+    while low <= high: 
+  
+        mid = (low + high)//2; 
+          
+        if arr[mid] == x: 
+            return mid 
+        elif arr[mid] < x: 
+            low = mid + 1
+        else: 
+            high = mid - 1
+    return False
+ 
+binarySearch([ 2, 3, 4, 10, 40 ],10)
+*********************************************************************************************************
+ 
+def findFirstAndLast(arr, n, x) : 
+    first = -1
+    last = -1
+    for i in range(0,n) : 
+        if (x != arr[i]) : 
+            continue
+        if (first == -1) : 
+            first = i 
+        last = i 
+      
+    if (first != -1) : 
+        print( "First Occurrence = " , first,  
+               " \nLast Occurrence = " , last) 
+    else : 
+        print("Not Found") 
+          
+          
+ 
+arr = [1, 2, 2, 2, 2, 3, 4, 7 ,8 ,8 ] 
+n = len(arr) 
+x = 2
+findFirstAndLast(arr, n, x) 
+      
+	  
+def first(arr, low, high, x, n) : 
+    if(high >= low) : 
+        id = (low + high) // 2
+        if( ( mid == 0 or x > arr[mid - 1]) and arr[mid] == x) : 
+            return mid 
+        elif(x > arr[mid]) : 
+            return first(arr, (mid + 1), high, x, n) 
+        else : 
+            return first(arr, low, (mid - 1), x, n) 
+      
+    return -1
+def last(arr, low, high, x, n) : 
+    if (high >= low) : 
+        mid = (low + high) // 2
+        if (( mid == n - 1 or x < arr[mid + 1]) and arr[mid] == x) : 
+            return mid 
+        elif (x < arr[mid]) : 
+            return last(arr, low, (mid - 1), x, n) 
+        else : 
+            return last(arr, (mid + 1), high, x, n) 
+              
+    return -1	  
+	
+arr = [1, 2, 2, 2, 2, 3, 4, 7 ,8 ,8 ]
+x = 2
+low=0
+high = len(arr)-1
+findFirstOccurrence(arr,low,high, x)	
+*********************************************************************************************************	
+#findKthLargest
+def quick_select(nums, k):
+        i = 0
+        for j in range(1,len(nums)):
+            if nums[j] > nums[0]:
+                i += 1
+                nums[i],nums[j] = nums[j],nums[i]
+        nums[i],nums[0] = nums[0],nums[i]
+        if i == k-1:
+            return nums[i]
+        elif i > k-1:
+            return quick_select(nums[:i], k)
+        else:
+            return quick_select(nums[i+1:], k-i-1)
+
+def findKthLargest(nums, k):
+    if nums==None or len(nums)==0 or k<1:
+        return -1
+    return quick_select(nums, k)
+    
+findKthLargest([3,2,1,5,6,4],6)        
+*********************************************************************************************************
+
+#findKthSmallest
+def quick_select(nums, k):
+    low=0
+    high=len(nums)-1
+    pivot_index = (low+high)//2
+    nums[pivot_index],nums[high] = nums[high],nums[pivot_index]
+   
+    
+    i = low
+    for j in range(low,high,1):
+        if nums[j] <= nums[high]:
+            nums[i],nums[j] = nums[j],nums[i]
+            i = i+1
+            
+    nums[i],nums[high] = nums[high],nums[i]
+    
+    if i == k-1:
+        return nums[i]
+    elif i > k-1:
+        return quick_select(nums[:i], k)
+    else:
+        return quick_select(nums[i+1:], k-i-1)
+
+def findKthSmallest(nums, k):
+    if nums==None or len(nums)==0 or k<1:
+        return -1
+    return quick_select(nums, k)
+    
+    
+findKthSmallest([3,2,3,1,2,4,5,5,6],5)
+
+*********************************************************************************************************
+
+*********************************************************************************************************
+	

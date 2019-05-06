@@ -1,0 +1,1042 @@
+#reversing number in place
+a=[1,2,3,4,5]
+start_index=0
+end_index=len(a)-1
+while end_index>start_index:
+	a[start_index],a[end_index]=a[end_index],a[start_index]
+	start_index+=1
+	end_index-=1
+
+#reverse the integer
+a=1234
+last=0
+reversed=0
+while a>0:
+    last = a%10    
+    a=a//10
+    reversed = reversed *10 + last	
+	
+def reverseOnlyLetters(S):
+    
+    letters = [c for c in S if c.isalpha()]
+    ans = []
+    for c in S:
+        if c.isalpha():
+            ans.append(letters.pop())
+        else:
+            ans.append(c)
+    return "".join(ans)    
+    #"j<*zz"
+            
+    
+reverseOnlyLetters("z<*zj")	
+*********************************************************************************************************	
+#Finding sum of digits of a number until sum becomes single digit
+def digSum(n): 
+    sum1 = 0
+    while(n > 0 or sum1 > 9): 
+      
+        if(n == 0): 
+            n = sum1
+            sum1 = 0
+        else:  
+            last = n % 10
+            sum1 = sum1+last
+            n = n// 10
+    return sum1
+  
+digSum(5674)	
+*********************************************************************************************************	
+#Repetition 
+a= [2,3,1,2,4,3]
+for i in a:
+	b=abs(i)
+    value=a[b]
+    if a[b] >=0:
+        a[b] = -a[b]
+    else:
+        print("Repetition Found: ", abs(i) )	
+*********************************************************************************************************		
+#Anagram
+str1='restful'
+str2='fluster'        
+
+if len(str1) != len(str2):
+    print("NOT Anagram")
+    
+str1 = sorted(str1)    
+str2 = sorted(str2)    
+
+for i in range(0,len(str1)):
+    if str1[i] != str2[i]:
+        print("NOT Anagram")
+
+print("Anagram")
+
+*********************************************************************************************************
+#largest subarray problem (Kadanes algo)) 0(N)
+a=[1,-2,3,4,-5,8]
+max_current= a[0]
+max_global = a[0]
+
+for i in range(1,len(a)):
+	max_current = max(a[i],max_current+a[i])
+	
+	if max_current > max_global:
+		max_global = max_current
+		
+
+#Middle node in linkedlist 0(N)
+current_node = self.head
+previous_node = None	
+next_node = None
+*********************************************************************************************************	
+def intersect(nums1, nums2):
+    i,j=0,0
+    lst={}
+    while(i<len(nums1) and j < len(nums2)):
+        if nums1[i] in lst:
+            if lst[nums1[i]]==nums2[j]:
+                return 
+            else:
+                return False
+        #elif A[i] not in lst:
+        else:
+            lst[nums1[i]]=nums2[j]
+            i+=1
+            j+=1
+        
+        
+    return lst
+intersect("foo","ban")    	
+*********************************************************************************************************
+
+def sortArrayByParityII(self, A):
+	even, odd = 0, 1
+	while even < len(A) and odd < len(A):
+		if A[even] % 2 == 0:
+			even += 2
+		elif A[odd] %2 == 1:
+			odd += 2
+		elif A[even] %2 !=0 and A[odd] %2 == 0:
+			A[even], A[odd] = A[odd], A[even]
+			even += 2
+			odd += 2
+	return A         
+*********************************************************************************************************
+#lengthOfLongestSubstring
+word="pwwkew"
+n = len(word)
+longest = 0
+for i in range(n):
+    seen = set()
+    for j in range(i, n):
+        if word[j] in seen: 
+			break
+        seen.add(word[j])
+    longest = max(len(seen), longest)
+print(longest)
+*********************************************************************************************************
+def lengthOfLongestSubstring(s):
+        
+	start = 0
+	max_len = 0
+	let_pos = {}
+	
+	for i in range(len(s)) :
+		if s[i] in let_pos and start <= let_pos[s[i]] :
+			start = let_pos[s[i]] + 1
+		else :
+			max_len = max(max_len, i - start + 1)
+		let_pos[s[i]] = i
+	return max_len     
+            
+lengthOfLongestSubstring("pwwkew")        
+*********************************************************************************************************
+def convert_roman(input_num):
+    roman_dict = {'I': 1,'V': 5,'X': 10,'L':50,'C':100,'D':500,'M':1000}
+    range_flag = None
+    for symbol,integer in roman_dict.items():
+        if integer == input_num:
+            return symbol 
+        if input_num > integer:
+            range_flag = symbol
+            
+    remaining = input_num - roman_dict[range_flag]
+    return range_flag + convert_roman(remaining)
+print(convert_roman(17))
+*********************************************************************************************************
+https://www.youtube.com/watch?v=Xy1dfcg7P-Y
+def convert_roman(s):
+    roman_dict = {'I': 1,'V': 5,'X': 10,'L':50,'C':100,'D':500,'M':1000}  
+    result=0
+    for i in range(0,len(s)-1):
+        c=s[i]
+        cafter = s[i+1]
+        
+        if roman_dict[c] < roman_dict[cafter]:
+            result = result - roman_dict[c] 
+        else:
+            result = result + roman_dict[c] 
+            
+    result = result + roman_dict[s[-1]] 
+    return result
+print(convert_roman('IV'))
+*********************************************************************************************************
+#string to integer
+str="   -42"
+out=0
+if len(str)==0:
+    print(0)
+    
+for i in range(0,len(str)):
+    if str[i]== " ":
+        i+=1
+    else:    
+        str=str[i::]
+        break
+    
+  
+if str[0] == '-':
+    start_ind = 1
+    is_niv = True
+else:
+    start_ind = 0
+    is_niv = False
+   
+for i in range(start_ind,len(str)):
+    place= 10**(len(str)-(i+1))
+    digit= ord(str[i])-ord('0')
+    out+=place*digit
+    
+
+if is_niv:
+    print(-1*out)
+else:
+    print(out)
+*********************************************************************************************************
+
+def divide(dividend, divisor):
+    if dividend == 0:
+        return 0
+    
+    count = 0
+    
+    while dividend >= divisor:
+        dividend=dividend - divisor
+        count+=1
+    print(count)
+    
+divide(10,3)    
+ *********************************************************************************************************   
+def addBinary(self, a, b):
+        a = a[::-1] 
+        b = b[::-1]
+        c=''
+        a1=0
+        b1=0
+        carry=0
+        for i in range(0,max(len(a),len(b))):
+            if len(a)< len(b) and len(a)-1<i:
+                a1=0
+                b1=int(b[i])
+            elif len(b)< len(a) and len(b)-1<i:
+                a1=int(a[i])
+                b1=0
+            else:
+                a1=int(a[i])
+                b1=int(b[i])
+            if a1 == 0 and b1 == 0 :
+                c = c+(str(0+carry))
+                carry=0
+            elif (a1 and b1) == 1:
+                c = c+(str(0+carry))
+                carry=1
+            elif a1 or b1 == 1:
+                if carry==1:
+                    c = c+(str(0))
+                    carry=1
+                else:
+                    c = c+(str(1))
+
+        if carry==1:
+            c = c+(str(1))
+        return c[::-1]
+*********************************************************************************************************
+def maxProfit(self, prices):
+        
+        buy=99999
+        profit=0
+        for i in range(0,len(prices)):
+            if prices[i]<buy:
+                buy=prices[i]
+            elif prices[i]-buy>profit:
+                profit=prices[i]-buy
+        
+        return profit
+		
+		
+def maxProfit(self, prices):
+	profit=0
+
+	for i in range(len(prices)-1):
+		if prices[i+1] > prices[i]:
+			profit+= prices[i+1] - prices[i]
+
+	return profit	
+
+maxProfit([7,1,5,3,6,4])	
+*********************************************************************************************************
+O(n^3)
+def longestPalindrome(s):
+    if len(s)==1:
+        return s
+    
+    value =s
+    longestPalindrome =""
+    lenght =0;
+    for i in range(len(value)):
+        for j in range(0, i):
+            array = value[j:i + 1]
+            if (array == array[::-1] and len(longestPalindrome) < len(array)):
+                longestPalindrome =array
+    return longestPalindrome
+        
+longestPalindrome("abaabc")        
+
+#https://www.youtube.com/watch?v=obBdxeCx_Qs	
+O(n^2)
+
+def longestPalindrome(s):
+	
+	start = 0
+	max_len = 1
+	n=len(s)
+	dp=[[0 for i in range(n)] for _ in range(n)] 
+	
+	
+	for i in range(n):
+		dp[i][i] = 1
+		
+	for i in range(n-1):
+		if s[i] == s[i+1]:
+			dp[i][i+1] = 1
+			start = i
+			max_len = 2
+			
+	for curr_len in range(3,n+1):
+		for i in range(0,n-curr_len+1):
+			
+			j= i+curr_len-1
+			
+			if s[i]==s[j] and dp[i+1][j-1]:
+				dp[i][j] = 1
+				
+				start=i
+				max_len=curr_len
+				
+	return s[start:max_len+1]	
+		
+st = "abaabc"
+l = longestPalSubstr(st) 		
+*********************************************************************************************************	
+def StringCompression(s):
+    out=""
+    sum_=1
+    for i in range(len(s)-1):
+        if s[i] == s[i+1]:
+            sum_+=1
+        else:
+            out=out+s[i]+str(sum_)
+            sum_=1
+    out=out+s[len(s)-1]+str(sum_)
+    if len(out) < len(s):
+        return out
+    else:
+        return s
+            
+StringCompression("aaabccc")    
+*********************************************************************************************************
+#reverseWords
+def reverseWords(s):
+    new = s.split()
+    temp = ''
+    for i in range(len(new)-1, -1 ,-1):
+        if temp == '':
+            temp = temp + new[i]
+        else: 
+            temp = temp + ' ' + new[i]
+    return temp        
+        
+reverseWords("the sky     is blue ")
+
+s = " i like this program very much "
+words = s.split() 
+string =[] 
+for word in words: 
+    string.insert(0, word) 
+  
+print("Reversed String:") 
+print(string) 
+
+ans=" ".join(string) 
+print(ans.strip(" ")) 
+*********************************************************************************************************
+def reverseStr(s,k):
+    flip   = True
+    result = ""
+    for i in range(0, len(s), k):
+        if flip:
+            result += s[i:i+k][::-1]
+        else:
+            result += s[i:i+k]
+        flip = not flip
+    return result
+    
+reverseStr("abcdefg",3)
+*********************************************************************************************************
+def containsDuplicate(self, nums):
+	d={}
+	for i in nums:
+		if i in d:
+			return True
+		else:
+			d[i] = 1
+			
+	return False
+*********************************************************************************************************
+def findLengthOfLCIS(nums):
+    if len(nums)<1:
+        return 0
+    cur=1
+    max_=1
+    for i in range(1,len(nums)):
+        if nums[i] > nums[i-1]:
+            cur+=1
+        else:
+            cur=1
+        max_=max(cur,max_)    
+		
+	return max	
+       
+findLengthOfLCIS([7, 8, 9, 1, 2, 3])    
+*********************************************************************************************************
+def pivotIndex( nums):
+    S = sum(nums)
+    leftsum = 0
+    for i, x in enumerate(nums):
+        if leftsum == (S - leftsum - x):
+            return i
+        leftsum += x
+    return -1
+
+
+pivotIndex([1, 7, 3, 6, 5, 6])
+*********************************************************************************************************
+def robotReturnToOrigin(s):
+    x = 0
+    y = 0
+    for i in moves:
+        if i == 'U':
+            y+=1
+        elif i == 'D':
+            y-=1
+        elif i == 'L':
+            x-=1
+        elif i == 'R':
+            x+=1
+    return x == 0 and y == 0
+
+robotReturnToOrigin("UP")    
+*********************************************************************************************************
+def missingNumber(nums):
+    s=set()
+    for i in nums:
+        s.add(i)
+        
+    for i in range(0,len(nums)+1):
+        if i not in s:
+            return i
+            
+    return -1        
+            
+missingNumber([0,1])            
+
+def missingNumber(nums):
+    sum=0
+    for i in nums:
+        sum+=i
+    
+    n=len(nums)+1    
+            
+    return (n*(n-1)//2) - sum
+            
+missingNumber([0,1]) 
+
+*********************************************************************************************************
+*********************************************************************************************************
+# Definition for an interval.
+# class Interval:
+#     def __init__(self, s=0, e=0):
+#         self.start = s
+#         self.end = e
+class Solution:
+    def canAttendMeetings(self, intervals):
+       
+        intervals.sort(key=lambda a: a.start)
+        for i in range(len(intervals)-1):
+            if intervals[i].end > intervals[i+1].start:
+                return False
+        return True
+*********************************************************************************************************		
+def overlap_next(start, end):
+    if start[1] > end[0]:
+        return True
+    return False
+
+def canAttendMeeting(arr):
+    arr = sorted(arr)
+    i = 0
+    while i < len(arr) -1:
+        if overlap_next(arr[i], arr[i+1]):
+            return False
+        else:    
+            i +=1
+    return True        
+
+#canAttendMeeting([[0,30], [5, 10], [15,20]])
+canAttendMeeting([[2,4],[7,10]])		
+*********************************************************************************************************
+def hammingDistance(x,y):
+    result=0
+    while x>0 or y>0:
+        result += (x%2) ^ (y%2)
+        #move by one position
+        #0100(4)--->0010(2)
+        #0010(2)--->0001(1)
+        #0001(1)--->0000(0)
+        x=x>>1
+        #0001(1)--->0000(0)
+        y>>=1
+    return result
+hammingDistance(4,1)  	
+*********************************************************************************************************    
+def hammingWeight(n):
+    count = 0 
+    while n > 0:
+        x=bin(n)
+        if n % 2:
+            count += 1
+        n >>= 1
+    return count
+hammingWeight(255)    
+*********************************************************************************************************    	
+def singleNumber(self, nums):
+        
+        a = 0
+        for i in nums:
+            a = a ^ i
+        return a
+Input: [4,1,2,1,2]
+Output: 4	
+# A = 5 = 0101, B = 3 = 0011
+ A ^ B = 0101 ^ 0011 = 0110 = 6
+ 
+def singleNumber(self, nums):
+        dict={}
+        count=0
+        for i in nums:
+            if i not in dict:
+                dict[i]=1
+            else:
+                dict.pop(i)
+        #return dict[]
+        return dict.popitem()[0]
+Input: [4,1,2,1,2]
+Output: 4	
+*********************************************************************************************************
+#Number of meeting rooms
+def meetingRoom(intervals):
+    
+    lines=[]
+    
+    for interval in intervals:
+        lines.append((interval[0],1))
+        lines.append((interval[1],-1))
+    
+    rooms=0
+    maxrooms=0
+    lines=sorted(lines)
+    for i,j in lines :
+        rooms+=j
+        maxrooms = max(rooms,maxrooms)
+    
+    return maxrooms    
+        
+l = [[2,5],[1,3],[2,7],[6,8]]
+l = [1,3],[6,8]
+meetingRoom(l)
+
+#Time-> O(nlogn)
+#Space->O(n)
+
+
+
+
+def merge_intervals(intervals):
+    
+    #intervals = sorted(intervals, key=lambda tup: tup[0])
+    #intervals = sorted(intervals)
+    res = []
+    
+    res.append(intervals[0])
+    
+    for i in range(1,len(intervals)):
+        cur = intervals[i]
+        pre = res[-1]
+        if cur[0] <= pre[1]:
+            res[-1][1] = max(pre[1], cur[1]) 
+        else:
+            res.append(cur) 
+             
+    return res
+
+if __name__ == '__main__':
+
+    l = [[1,3],[2,6],[8,10],[15,18]]
+    print("Original list of ranges: {}".format(l))
+    merged_list = merge_intervals(l)
+    print("List of ranges after merge_ranges: {}".format(merged_list))
+
+#alternative
+def merge_intervals(intervals):
+    
+    #intervals = sorted(intervals, key=lambda tup: tup[0])
+    intervals = sorted(intervals)
+    merged = []
+
+    for tup in intervals:
+        if not merged:
+            merged.append(tup)
+        else:
+            b = merged.pop()
+            if b[1] >= tup[0]:
+                new_tup = tuple([b[0], tup[1]])
+                merged.append(new_tup)
+            else:
+                merged.append(b)
+                merged.append(tup)
+    return merged
+
+if __name__ == '__main__':
+
+    l = [[1,3],[2,6],[8,10],[15,18]]
+    print("Original list of ranges: {}".format(l))
+    merged_list = merge_intervals(l)
+    print("List of ranges after merge_ranges: {}".format(merged_list))
+*********************************************************************************************************
+import collections 
+
+def totalFruit(tree):
+    ans = i = 0
+    count = collections.Counter()
+    for j, x in enumerate(tree):
+        count[x] += 1
+        while len(count) >= 3:
+            count[tree[i]] -= 1
+            if count[tree[i]] == 0:
+                del count[tree[i]]
+            i += 1
+        ans = max(ans, j - i + 1)
+    return ans
+totalFruit([3,3,3,1,2,1,1,2,3,3,4])  	
+
+def totalFruit(tree):
+    basket = {}
+    start, maximum = 0, 1
+    
+    for i, fruit in enumerate(tree) :
+        
+        basket[fruit] = i
+        
+        if len(basket) > 2 :
+            last = min(basket.keys(), key=lambda x: basket[x])
+            start = basket[last]+1
+            del basket[last]
+        else :
+            maximum = max(maximum, i-start+1)
+            
+    return maximum
+totalFruit([3,3,3,1,2,1,1,2,3,3,4])  
+*********************************************************************************************************
+def numIslands(grid):
+    if not grid:
+        return 0
+    total=0    
+    for i in range(len(grid)):
+        for j in range(len(grid[0])):
+            if grid[i][j] == 1:
+                dfs(grid,i,j)
+                total+=1
+    return total
+    
+def dfs(grid,x,y):
+    grid[x][y] = 'x'
+    if x-1 >=0 and grid[x-1][y] == 1:
+        dfs(grid,x-1,y)
+    if y-1 >=0 and grid[x][y-1] == 1:
+        dfs(grid,x,y-1)
+    if x+1 <len(grid) and grid[x+1][y] == 1:
+        dfs(grid,x+1,y)  
+    if y+1 <len(grid[0]) and grid[x][y+1] == 1:
+        dfs(grid,x,y+1)    
+
+numIslands([[1,1,0,0,0],[0,1,0,0,1],[1,0,0,1,1],[0,0,0,0,0],[1,0,1,0,1]])   
+*********************************************************************************************************
+def exist(board,word):
+    if not board or word is None:
+        return 0
+    elif not board[0]:
+        return 0   
+    result = False    
+    for i in range(len(board)):
+        for j in range(len(board[0])):
+            if board[i][j] == word[0]:
+                count=0
+                result = dfs(board,i,j,word,count)
+                
+                if result:
+                    return True
+                
+    
+def dfs(board,x,y,word,count):
+    count+=1
+    temp = board[x][y] 
+    board[x][y] = 'x'
+    if count == len(word):
+        return True
+    if x-1 >=0 and board[x-1][y] == word[count]:
+        result = dfs(board,x-1,y,word,count)
+        if result:
+            return True
+    if y-1 >=0 and board[x][y-1] == word[count]:
+        result = dfs(board,x,y-1,word,count)
+        if result:
+            return True
+    if x+1 <len(board) and board[x+1][y] == word[count]:
+        result = dfs(board,x+1,y,word,count)  
+        if result:
+            return True
+    if y+1 <len(board[0]) and board[x][y+1] == word[count]:
+        result = dfs(board,x,y+1,word,count)    
+        if result:
+            return True
+    board[x][y] = temp
+    
+exist([
+  ['A','B','C','E'],
+  ['S','F','C','S'],
+  ['A','D','E','E']
+],"ABXFZ")    
+*********************************************************************************************************
+def countBattleships(board):
+        
+    if not board:
+        return 0
+    total=0    
+    for row in range(len(board)):
+        for col in range(len(board[0])):
+            if board[row][col] == '.':
+                continue 
+            if row >0 and board[row-1][col] == 'X':
+                continue
+            if row >0 and board[row][col-1] == 'X':
+                continue
+            else:
+                total+=1
+    return total
+ 
+countBattleships([["X",".",".","X"],[".",".",".","X"],[".",".",".","X"]])    
+*********************************************************************************************************
+def maxAreaOfIsland(grid):
+    max_=0
+    for row in range(len(grid)):
+        for col in range(len(grid[0])):
+            if grid[row][col] == 1:
+                max_=max(max_,dfs(grid,row,col))
+             
+    return max_        
+                
+def dfs(grid,row,col):
+    
+    if (row<0 or col<0 or row>= len(grid) or col>=len(grid[0]) or grid[row][col] != 1):
+        return 0
+		
+    count=1
+        
+    grid[row][col] = 'x'    
+    count = count +dfs(grid,row-1,col)
+    count+= dfs(grid,row,col-1)
+    count+= dfs(grid,row+1,col)  
+    count+=dfs(grid,row,col+1)    
+    
+    return count
+
+maxAreaOfIsland([[0,0,1,0,0,0,0,1,0,0,0,0,0],
+ [0,0,0,0,0,0,0,1,1,1,0,0,0],
+ [0,1,1,0,1,0,0,0,0,0,0,0,0],
+ [0,1,0,0,1,1,0,0,1,0,1,0,0],
+ [0,1,0,0,1,1,0,0,1,1,1,0,0],
+ [0,0,0,0,0,0,0,0,0,0,1,0,0],
+ [0,0,0,0,0,0,0,1,1,1,0,0,0],
+ [0,0,0,0,0,0,0,1,1,0,0,0,0]])   
+    
+*********************************************************************************************************    
+def findComplement(num):
+    result =0
+    power=1
+    while num>0:
+        result+=(num%2 ^ 1) * power
+        power<<=1
+        num>>=1
+findComplement(5)        	
+*********************************************************************************************************
+def hasAlternatingBits(n):
+        
+        last = n%2
+        n>>=1
+        while n>0:
+            cur=n%2
+            if cur == last:
+                return False
+
+            last=cur
+            n>>=1
+
+        return True
+hasAlternatingBits(10)		
+*********************************************************************************************************
+def findDisappearedNumbers(nums):
+       
+        arr=[]
+        s=set()
+        for i in nums:
+            s.add(i)
+
+        for i in range(1,len(nums)+1):
+            if i not in s:
+                arr.append(i)
+                
+        return arr 
+		
+findDisappearedNumbers([4,3,2,7,8,2,3,1])		
+	
+#direct approach	
+nums=[4,3,2,7,8,2,3,1]
+a=set(range(1,len(nums)+1)) 
+b=set(nums)
+
+print(a-b)	
+*********************************************************************************************************
+def ContainerWithMostWater(height):
+    if len(height)<=1:
+        return 0
+    
+    start=0
+    end=len(height)-1
+    max_=0
+    
+    while start<end:
+        
+        minimumOfHight=min(height[start],height[end])
+        dist=end-start
+        max_=max(max_,(minimumOfHight*dist))
+        if height[start]<height[end]:
+            start+=1
+        else:
+            end-=1
+        
+    return max_    
+    
+    
+ContainerWithMostWater([1,8,6,2,5,4,8,3,7])	
+*********************************************************************************************************
+def countDecodingDP(digits, n): 
+     
+    if not digits:
+        return 0
+    if digits[0] == '0':
+        return 0 
+
+    n = len(digits)
+    count = [0] * (n+1)  
+    count[0] = 1
+    count[1] = 1
+    
+    
+    for i in range(2, n+1): 
+      
+        count[i] = 0
+
+        if (digits[i-1] > '0'): 
+            count[i] = count[i-1] 
+  
+        if (digits[i-2] == '1' or (digits[i-2] == '2' and digits[i-1] < '7') ): 
+            count[i] += count[i-2] 
+      
+    return count[n] 
+  
+countDecodingDP("229")) 
+*********************************************************************************************************    
+#https://www.youtube.com/watch?v=eaYX0Ee0Kcg&t=47s
+# O(n + k log n)
+#https://stackoverflow.com/questions/2501457/what-do-i-use-for-a-max-heap-implementation-in-python
+import heapq
+def kClosest(points, K):
+    dist = []
+    
+    for x, y in points:
+        dis = x ** 2 + y ** 2   #O(n)
+        dist.append((dis, (x, y)))
+    
+    heapq.heapify(dist)
+    
+    #return [heapq.heappop(dist)[1] for _ in range(K)]
+    res=[]
+    for i in range(K):			#O(k)				
+        p=heapq.heappop(dist)	#O(log n)
+        res.append(p[1])
+    return res
+    
+kClosest([[3,3],[5,-1],[-2,4]],2)    	
+*********************************************************************************************************
+def frequencySort(s):
+    d={}
+    for i in s:
+        if i in d:
+            d[i]+=1
+        else:
+            d[i]=1
+            
+    #sorted_= sorted(d.keys(),key=lambda x:d[x])        
+    sorted_2= sorted(d.keys(),key=lambda x:d[x], reverse= True)    
+    
+    result=""
+    for i in sorted_2:
+        result+=i*d[i]
+    
+frequencySort("ttreee")
+
+import collections
+def frequencySort(s):
+    
+    count=collections.Counter(s)
+    
+    res=""     
+    x=sorted(count.keys(),key=lambda x:count[x], reverse = True)  
+    for i in x:
+        res+=i*count[i]
+    return res
+    
+frequencySort("ttreee")
+*********************************************************************************************************	
+def detectCapitalUse(self, word):
+        
+        count=0
+        for i in word:
+            if i.isupper():
+                count+=1
+                
+        return len(word)==count or count==0 or len(word)==count or count ==1 and word[0].isupper()     	
+*********************************************************************************************************		
+https://www.youtube.com/watch?v=5VDQxLAlfu0
+def maxSlidingWindow(nums,k):
+    queue = [] # like PriorityQueue, remain the top k value
+    result = []
+
+    for i in range(len(nums)):
+        # judge whether the first item is in window
+        if queue and queue[0] < (i - k )+ 1:
+            queue.pop(0)
+
+        # update the queue 
+        while queue and nums[queue[-1]] < nums[i]:
+            queue.pop()
+
+        queue.append(i)
+        
+        #after i > k - 1, output the max value
+        if queue and i >= k - 1:
+            result.append(nums[queue[0]])
+    return result
+maxSlidingWindow([1,3,1,2,0,5],3)		
+*********************************************************************************************************
+#Longest Consecutive Sequence -> O(n)
+def longestConsecutive(nums):
+    longest_streak = 0
+    num_set = set(nums)
+
+    for num in num_set:
+        if num - 1 not in num_set:
+            current_num = num
+            current_streak = 1
+
+            while current_num + 1 in num_set:
+                current_num += 1
+                current_streak += 1
+
+            longest_streak = max(longest_streak, current_streak)
+
+    return longest_streak
+longestConsecutive([100, 4, 200, 1, 3, 2])    
+*********************************************************************************************************    
+def mostCommonWord(paragraph,banned):
+    new=""
+    for i in paragraph:
+        if i.isalpha() == True: 
+            new+=i.lower()
+        if i == " " or i == ",":
+            new+= " "
+        else:
+            continue
+   
+    l = new.split(' ')
+    
+    d={}
+    for i in l:
+        if i in banned:
+            continue
+        if i.isalpha() == False:
+            continue
+        if i in d:
+            d[i] += 1
+        else:
+            d[i] = 1
+            
+    s=max(d.keys(),key= lambda x:d[x])        
+    return s        
+            
+mostCommonWord("a, a, a, a, b,b,b,c, c",["a"])	
+*********************************************************************************************************
+def numUniqueEmails(emails):
+    
+    s=set()
+    for i in emails:
+        email=i.split('@')
+        email[0] = email[0].replace('.',"")
+        
+        index = email[0].find("+")
+        
+        if index != -1:
+            email[0] =  email[0][:index]
+        
+        fullemail = '@'.join(email)
+        
+        s.add(fullemail)
+        
+    return len(s)       
+
+    
+    
+numUniqueEmails(["test.email+alex@leetcode.com", "test.email@leetcode.com"])
+*********************************************************************************************************
