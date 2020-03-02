@@ -1,0 +1,2057 @@
+*********************************************************************************************************
+#works for sorted array only
+def two_sum(nums,target):
+    nums=sorted(nums)
+    low=0
+    high=len(nums)-1
+    
+    while low<high:
+        if nums[low]+nums[high]==target:
+            return [low,high]
+        elif nums[low]+nums[high]<target:
+            low+=1
+        else:
+            high-=1
+        
+two_sum([3,6,9,12,13,4,5,8,7,1,2],3)
+
+def twoSum(nums, target):
+        if(len(nums) <= 1):
+            return
+        buff_dict = {}
+        for i in range(len(nums)):
+            temp = target - nums[i]
+            if temp in buff_dict:
+                return [buff_dict[temp],i]
+            else:
+                buff_dict[nums[i]] = i
+        return
+        
+twoSum([2, 7, 11, 15], 9) 
+*********************************************************************************************************
+def two_sumclosest(nums, target):
+    nums.sort()
+    ans_diff = 0x7fffffff
+    ans=[0]
+    n = len(nums)
+    L=0
+    R= len(nums)-1
+    while L < R:
+        value = nums[L] + nums[R]
+        dist= abs(target - value)
+        if dist < ans_diff:
+            ans_diff = dist
+            ans.pop()
+            ans.append([L,R])
+            
+        if value > target:
+            R -= 1
+        elif value < target:
+            L += 1
+        else:
+            return 0
+        
+    return ans
+      
+two_sumclosest([90, 85, 75, 60, 120, 150, 125],220)
+*********************************************************************************************************  
+def threeSumClosest(nums, target):
+    nums.sort()
+    ans = float('inf')
+    ans_diff = float('inf')
+    n = len(nums)
+    for i in range(n - 1):
+        L, R = i + 1, n - 1
+        while L < R:
+            temp = nums[i] + nums[L] + nums[R]
+            if temp == target:
+                return target
+            elif temp > target:
+                R -= 1
+            else:
+                L += 1
+
+            diff = abs(temp - target)
+            if diff < ans_diff:
+                ans = temp 
+                ans_diff = diff
+    return ans
+        
+threeSumClosest(nums = [-1, 2, 1, -4], target = 1)        
+*********************************************************************************************************
+def threeSum(nums,K):
+    nums.sort()
+
+    for k in range(len(nums)):
+  
+        i,j = k+1, len(nums)-1
+        while i < j:
+            sum_two = nums[i] + nums[j] + nums[k]
+            if sum_two < K:
+                i += 1
+            elif sum_two > K:
+                j -= 1
+            else:
+                return [nums[k],nums[i],nums[j]]   
+       
+threeSum([5,6,8,5,3,1],16)       
+*********************************************************************************************************
+def addTwoNumbers(self, l1, l2):
+        carry = 0 
+        NewList=ListNode(0)
+        temp=NewList
+        totalSum=0
+        
+        while l1 or l2 or carry:
+            
+            if l1:
+                totalSum += l1.val
+                l1= l1.next
+            if l2:
+                totalSum+= l2.val
+                l2=l2.next
+            totalSum += carry
+            carry= totalSum//10
+            temp.next=ListNode(totalSum%10)
+            totalSum=0
+            temp= temp.next
+            
+        return NewList.next 
+*********************************************************************************************************
+https://www.youtube.com/watch?v=Xy1dfcg7P-Y
+def convert_roman(s):
+    roman_dict = {'I': 1,'V': 5,'X': 10,'L':50,'C':100,'D':500,'M':1000}  
+    result=0
+    for i in range(0,len(s)-1):
+        c=s[i]
+        cafter = s[i+1]
+        
+        if roman_dict[c] < roman_dict[cafter]:
+            result = result - roman_dict[c] 
+        else:
+            result = result + roman_dict[c] 
+            
+    result = result + roman_dict[s[-1]] 
+    return result
+print(convert_roman('IV'))
+*********************************************************************************************************
+class ListNode(object):
+    def __init__(self, x):
+        self.val = x
+        self.next = None
+
+def deleteNode(node):
+    if node == None:
+        return None
+    if node.next:
+        node.val = node.next.val
+        node.next = node.next.next
+    return
+                    
+root = ListNode(9)
+root.next = ListNode(1)
+root.next.next = ListNode(5)
+root.next.next.next = ListNode(4)
+root.next.next.next.next = ListNode(None)
+        
+deleteNode(root.next.next)         
+*********************************************************************************************************
+def isValid(s):
+	stack = [] 
+	open_list = ["[","{","("] 
+	close_list = ["]","}",")"] 
+	
+   
+	for i in s: 
+		if i in open_list: 
+			stack.append(i) 
+		elif i in close_list: 
+			pos = close_list.index(i) 
+			if ((len(stack) > 0) and
+				(open_list[pos] == stack[-1])): 
+				stack.pop() 
+			else: 
+				return False
+	if len(stack) == 0: 
+		return True
+	else:
+		return False
+isValid("[]{}")
+*********************************************************************************************************
+#https://www.youtube.com/watch?v=j_UNYW6Ap0k&t=300s
+class ListNode(object):
+    def __init__(self, x):
+        self.val = x
+        self.next = None
+         
+class Solution(object): 
+    def __init__(self): 
+        self.head = None
+    
+    def push(self, new_data): 
+        new_node = ListNode(new_data) 
+        new_node.next = self.head 
+        self.head = new_node 
+        
+    def MergeTwoSortedList(self,l1,l2):
+        S = None
+
+        #if l1 is None
+        if not l1:
+            return l2
+        if not l2:
+            return l1
+        
+        #if P and Q is not None
+        if l1 and l2:
+            if l1.val < l2.val:
+                S = l1
+                l1 = S.next
+            else:
+                S = l2    
+                l2 = S.next
+            new_head = S
+
+        while l1 and l2:
+            if l1.val <= l2.val:
+                S.next = l1
+                S = l1
+                l1 = S.next
+            else:
+                S.next = l2
+                S = l2
+                l2 = S.next
+
+
+        if l1 == None:
+            S.next = l2
+        if l2 == None:
+            S.next = l1
+            
+        return print(new_head)
+        
+l1 = Solution() 
+l2 = Solution()         
+                    
+l1.push(7) 
+l1.push(5) 
+l1.push(1) 
+
+
+l2.push(4) 
+l2.push(3) 
+l2.push(2) 
+    
+s = Solution()
+s.MergeTwoSortedList(l1.head,l2.head)
+*********************************************************************************************************
+#O(Nlogk)
+#O(logk) for every pop and insertion to 
+#N nodes in the final linked list
+
+import heapq
+
+class ListNode(object):
+    def __init__(self, x):
+        self.val = x
+        self.next = None
+           
+class Solution:
+  
+    def mergeKLists(self, lists):
+        dummy = ListNode(0)
+        current = dummy
+
+        heap = []
+        for sorted_list in lists:
+            if sorted_list:
+                heapq.heappush(heap, (sorted_list.val, sorted_list))
+
+        while heap:
+            smallest = heapq.heappop(heap)[1]
+            current.next = smallest
+            current = current.next
+            if smallest.next:
+                heapq.heappush(heap, (smallest.next.val, smallest.next))
+
+        return dummy.next
+
+
+if __name__ == "__main__":
+    list1 = ListNode(1)
+    list1.next = ListNode(3)
+    list2 = ListNode(2)
+    list2.next = ListNode(4)
+
+    print (Solution().mergeKLists([list1, list2]))
+*********************************************************************************************************
+O(n^3)
+def longestPalindrome(s):
+    if len(s)==1:
+        return s
+    
+    value =s
+    longestPalindrome =""
+    lenght =0;
+    for i in range(len(value)):
+        for j in range(0, i):
+            array = value[j:i + 1]
+            if (array == array[::-1] and len(longestPalindrome) < len(array)):
+                longestPalindrome =array
+    return longestPalindrome
+        
+longestPalindrome("abaabc")        
+
+#https://www.youtube.com/watch?v=obBdxeCx_Qs	
+O(n^2)
+
+def longestPalindrome(s):
+	
+	start = 0
+	max_len = 1
+	n=len(s)
+	dp=[[0 for i in range(n)] for _ in range(n)] 
+	
+	
+	for i in range(n):
+		dp[i][i] = 1
+		
+	for i in range(n-1):
+		if s[i] == s[i+1]:
+			dp[i][i+1] = 1
+			start = i
+			max_len = 2
+			
+	for curr_len in range(3,n+1):
+		for i in range(0,n-curr_len+1):
+			
+			j= i+curr_len-1
+			
+			if s[i]==s[j] and dp[i+1][j-1]:
+				dp[i][j] = 1
+				
+				start=i
+				max_len=curr_len
+				
+	return s[start:max_len+1]	
+		
+st = "abaabc"
+l = longestPalSubstr(st) 		
+*********************************************************************************************************
+def hammingWeight(n):
+    count = 0 
+    while n > 0:
+        x=bin(n)
+        if n % 2:
+            count += 1
+        n >>= 1
+    return count
+	
+hammingWeight(255) 
+*********************************************************************************************************
+
+#Maximum Sum SubArray (Kadane's algorithm) (Largest Sum Contigous SubArray)
+#SumOfContiguousSubarray
+#https://www.youtube.com/watch?v=kekmCQXYwQ0
+def SumOfContiguousSubarray(arr):
+    max_ending_here = 0
+    max_sofar = 0
+    
+    start=0
+    end=0
+    s=0
+    
+    for i in range(len(arr)):
+        max_ending_here = max_ending_here + arr[i]
+        if max_sofar < max_ending_here:
+            max_sofar = max_ending_here 
+            start=s
+            end=i
+            
+        if max_ending_here < 0:
+            max_ending_here = 0
+            s=i+1
+               
+    return max_sofar        
+                
+SumOfContiguousSubarray([-2,1,-3,4,-1,2,1,-5,4]) 
+
+def SumOfContiguousSubarray(arr):
+    max_ending_here = 0
+    max_sofar = []
+    
+    for i in arr:
+        max_ending_here = max_ending_here + i
+        if max_ending_here < i:
+            max_ending_here = i
+       
+        max_sofar.append(max_ending_here)
+            
+    return max(max_sofar)        
+                
+SumOfContiguousSubarray([-2,1,-3,4,-1,2,1,-5,4]) 
+*********************************************************************************************************
+#Search an element in a sorted and rotated array
+def search (arr, l, h, key): 
+    if l > h: 
+        return -1
+      
+    mid = (l + h) // 2
+    if arr[mid] == key: 
+        return mid 
+  
+    # If arr[l...mid] is sorted  
+    if arr[l] <= arr[mid]: 
+  
+        # As this subarray is sorted, we can quickly 
+        # check if key lies in half or other half  
+        if key >= arr[l] and key <= arr[mid]: 
+            return search(arr, l, mid-1, key) 
+        return search(arr, mid+1, h, key) 
+  
+    # If arr[l..mid] is not sorted, then arr[mid... r] 
+    # must be sorted 
+    if key >= arr[mid] and key <= arr[h]: 
+        return search(arr, mid+1, h, key) 
+    return search(arr, l, mid-1, key) 
+  
+# Driver program 
+arr = [4, 5, 6, 7, 8, 9, 1, 2, 3] 
+key = 3
+i = search(arr, 0, len(arr)-1, key) 
+if i != -1: 
+    print ("Index: %d"%i) 
+else: 
+    print ("Key not found") 
+********************************************************************************************************	
+#Find pivote in a sorted and rotated array
+
+def findMin(nums):
+    if not nums:
+        return -1  
+    low=0
+    high=len(nums)-1
+    return pivote(nums,low,high)
+    
+def pivote(nums,low,high):    
+        
+    mid=(low+high)//2
+    if nums[mid+1]<nums[mid]:
+        return mid+1
+     
+    if nums[low]>nums[mid]:
+        return pivote(nums,low,mid-1)
+    else:
+        return pivote(nums,mid+1,high)
+            
+findMin([3,4,5,6,7,1,2])         
+********************************************************************************************************
+#isBST
+class newNode:  
+    def __init__(self, key):  
+        self.data = key 
+        self.left = None
+        self.right = None
+  
+def isBST(root,l,r):  
+  
+    if (root == None) : 
+        return True
+  
+    if (l != None and root.data < l.data) : 
+        return False
+  
+    if (r != None and root.data > r.data) : 
+        return False
+  
+    return isBST(root.left, l, root) and  isBST(root.right, root, r)  
+  
+if __name__ == '__main__': 
+    root = newNode(3)  
+    root.left = newNode(2)  
+    root.left.left = newNode(1)
+    root.left.right = newNode(10)
+    root.right = newNode(5)  
+    root.right.left = newNode(4)  
+    #root.right.right = newNode(4)  
+     
+    if (isBST(root,None,None)): 
+        print("Is BST") 
+    else: 
+        print("Not a BST") 	
+********************************************************************************************************
+#FizzBuzz
+#Ask if x is -ve, int,higest value of x
+x=15
+for i in range(1,x):
+    if i%3==0 and i%5==0:
+        print("FizzBuzz")
+    elif i%3==0:
+        print("Fizz")    
+    elif i%5==0:
+        print("Buzz")   
+    else:
+        print(i)   
+        
+********************************************************************************************************
+O(n)
+def reverseWords(s):
+    s=s[::-1]
+    word=""
+    words=""
+    for j,i in enumerate(s):
+        if i != ' ' and s[j-1] == ' ':
+            words += word + ' '
+            word = i
+        elif i!= ' ':
+            word = i + word
+        else:
+            continue
+    words += word
+    return words
+    
+reverseWords("the sky is blue")    
+********************************************************************************************************
+O(n)
+def productExceptSelf(nums):
+    
+    output = [1]* len(nums)
+    left=1
+    
+    for i in range(len(nums)):
+        output[i]= left
+        left = left * nums[i]
+        
+    right=1
+    
+    for i in range(len(nums)-1,-1,-1):
+        output[i] = right* output[i]
+        right = nums[i] * right
+    
+productExceptSelf([1,2,3,4])    
+********************************************************************************************************
+#https://leetcode.com/problems/excel-sheet-column-title/discuss/51404/Python-solution-with-explanation
+#https://www.youtube.com/watch?v=77HYaBDcGuQ
+def NumberTotitle(n):
+    result = ''
+    distance = ord('A') 
+
+    while n > 0:
+        y = (n-1) % 26
+        n = (n-1) // 26
+        s = chr(y+distance)
+        result = ''.join((s, result))
+
+    return result
+    
+NumberTotitle(97)
+
+def titleToNumber(s):
+    res=0
+    for i in s:
+        res = res *26 +ord(i)-ord('A')+1
+    return res    
+    
+titleToNumber("ZY")    		
+********************************************************************************************************
+def merge1(nums1, m, nums2, n):
+    m, n = m-1, n-1
+    while m >= 0 and n >= 0:
+        if nums1[m] > nums2[n]:
+            nums1[m+n+1] = nums1[m]
+            m -= 1
+        else:
+            nums1[m+n+1] = nums2[n]
+            n -= 1
+    if n != -1: # nums2 is still left
+        nums1[:n+1] = nums2[:n+1]
+        
+merge1([1,2,3,0,0,0],3,[2,5,6],3)        
+********************************************************************************************************
+#clone time->O(n) space->O(1)
+#https://www.youtube.com/watch?v=3zzICJWOINc
+class ListNode(object):
+    def __init__(self, x):
+        self.val = x
+        self.next = None
+        self.rondom =  None
+         
+class Solution(object): 
+    def __init__(self): 
+        self.head = None
+    
+    def push(self, new_data): 
+        new_node = ListNode(new_data) 
+        new_node.next = self.head 
+        self.head = new_node 
+            
+    def clone(self,head):
+        old_head=head
+        new_head=None
+        prev=None
+        dict={}
+        
+        while head:
+            n= ListNode(head.val)
+            if not new_head:
+                new_head = n
+            if prev:
+                prev.next = n
+            dict[head]=n
+            head=head.next
+            prev = n
+            
+        head = old_head
+        it_head = new_head
+        
+        while head:
+            it_head.random = dict[head.random]
+            head = head.next
+            it_head = it_head.next
+            
+        return new_head    
+                
+list = Solution() 
+        
+#list.push(4) 
+#list.push(3) 
+list.push(2) 
+list.push(1) 
+
+list.head.random = list.head.next; 
+list.head.next.random = list.head.next; 
+#list.head.next.next.random = list.head.next.next.next.next; 
+#list.head.next.next.next.random = list.head.next.next.next.next.next; 
+#list.head.next.next.next.next.random = list.head.next; 
+          
+list.clone(list.head)
+********************************************************************************************************
+#clone time->O(n) space->O(n)
+class ListNode(object):
+    def __init__(self, x):
+        self.val = x
+        self.next = None
+        self.rondom =  None
+         
+class Solution(object): 
+    def __init__(self): 
+        self.head = None
+    
+    def push(self, new_data): 
+        new_node = ListNode(new_data) 
+        new_node.next = self.head 
+        self.head = new_node 
+            
+    def clone(self,original_root):
+        curr = original_root 
+        while curr != None: 
+            new = ListNode(curr.val) 
+            new.next = curr.next
+            curr.next = new 
+            curr = curr.next.next
+      
+        '''Adjust the random pointers of the newly added nodes'''
+        curr = original_root 
+        while curr != None: 
+            curr.next.random = curr.random.next
+            curr = curr.next.next
+      
+        '''Detach original and duplicate list from each other'''
+        curr = original_root 
+        dup_root = original_root.next
+        while curr.next != None: 
+            tmp = curr.next
+            curr.next = curr.next.next
+            curr = tmp 
+  
+        return dup_root
+                
+list = Solution() 
+        
+#list.push(4) 
+#list.push(3) 
+list.push(2) 
+list.push(1) 
+
+list.head.random = list.head.next; 
+list.head.next.random = list.head.next; 
+#list.head.next.next.random = list.head.next.next.next.next; 
+#list.head.next.next.next.random = list.head.next.next.next.next.next; 
+#list.head.next.next.next.next.random = list.head.next; 
+          
+list.clone(list.head)
+********************************************************************************************************
+#string to integer
+str="   -42"
+out=0
+if len(str)==0:
+    print(0)
+    
+for i in range(0,len(str)):
+    if str[i]== " ":
+        i+=1
+    else:    
+        str=str[i::]
+        break
+    
+  
+if str[0] == '-':
+    start_ind = 1
+    is_niv = True
+else:
+    start_ind = 0
+    is_niv = False
+   
+for i in range(start_ind,len(str)):
+    place= 10**(len(str)-(i+1))
+    digit= ord(str[i])-ord('0')
+    out+=place*digit
+    
+
+if is_niv:
+    print(-1*out)
+else:
+    print(out)
+********************************************************************************************************
+class ListNode(object):
+    def __init__(self, x):
+        self.val = x
+        self.next = None
+         
+class Solution(object): 
+    def __init__(self): 
+        self.head = None
+    
+    def push(self, new_data): 
+        new_node = ListNode(new_data) 
+        new_node.next = self.head 
+        self.head = new_node 
+        
+    def Intersection(self,headA,headB):
+        
+        curA,curB = headA,headB
+        lenA,lenB = 0,0
+        while curA is not None:
+            lenA += 1
+            curA = curA.next
+        while curB is not None:
+            lenB += 1
+            curB = curB.next
+        curA,curB = headA,headB
+        if lenA > lenB:
+            for i in range(lenA-lenB):
+                curA = curA.next
+        elif lenB > lenA:
+            for i in range(lenB-lenA):
+                curB = curB.next
+        while curB.val != curA.val:
+            curB = curB.next
+            curA = curA.next
+        return curA
+        
+l1 = Solution()         
+l2 = Solution()
+l1.push(30)
+l1.push(15)                    
+l1.push(9) 
+l1.push(6) 
+l1.push(3) 
+
+l2.push(30)
+l2.push(15)                    
+l2.push(10)
+
+l1.Intersection(l1.head,l2.head)
+********************************************************************************************************
+def rotate90Clockwise(A): 
+    N=len(A[0])
+    for i in range(0,N//2):
+        for j in range(i,N-i-1):
+            temp = A[i][j]
+            A[i][j] = A[N-1-j][i]
+            A[N-1-j][i] = A[N-1-i][N-1-j]
+            A[N-1-i][N-1-j] = A[j][N-1-i]
+            A[j][N-1-i] = temp
+
+A = [[1, 2, 3, 4], 
+     [5, 6, 7, 8],  
+     [9, 10, 11, 12],  
+     [13, 14, 15, 16]] 
+     
+rotate90Clockwise(A) 
+
+********************************************************************************************************
+#https://www.youtube.com/watch?v=TmweBVEL0I0&t=591s
+def spiralOrder(matrix):
+    row=len(matrix)
+    col=len(matrix[0])
+    k=0
+    l=0
+    last_row = row-1
+    last_col = col-1
+    
+    res = []
+    while k<=last_row and l<=last_col:
+        
+        for i in range(l,last_col+1):
+            res.append(matrix[k][i])
+        k+=1
+        
+        for i in range(k,last_row+1):
+            res.append(matrix[i][last_col])
+        last_col-=1    
+        
+        if k<=last_row:
+            for i in range(last_col,l-1,-1):
+                res.append(matrix[last_row][i])
+            last_row-=1
+            
+        if l<=last_col:
+            for i in range(last_row,k-1,-1):
+                res.append(matrix[i][l])
+            l+=1
+            
+    
+    
+spiralOrder([[ 1, 2, 3 ],[ 4, 5, 6 ],[ 7, 8, 9 ]])    
+#[1,2,3,6,9,8,7,4,5]
+********************************************************************************************************
+def firstUniqChar(s):
+        d = {}
+
+        for i in range(len(s)):
+            if s[i] not in d:
+                d[s[i]] = i
+            else:
+                d[s[i]] = False
+
+        for key in d:
+            if d[key] is not False:
+                return d[key]
+		
+********************************************************************************************************
+def missingNumber(self, nums):
+        sum=0
+        for i in nums:
+            sum+=i
+
+        n=len(nums)+1    
+
+        return (n*(n-1)//2) - sum  
+
+********************************************************************************************************
+O(n!)
+#dfs
+def permute(nums):
+    res = []
+    dfs(nums, [], res)
+    return res
+    
+def dfs(nums, path, res):
+    if not nums:
+        res.append(path)
+    for i in range(len(nums)):
+        dfs(nums[:i]+nums[i+1:], path+[nums[i]], res)
+        
+permute([1,2,3])            
+
+********************************************************************************************************
+#dfs
+def permuteUnique(nums):
+    res = []
+    perm(sorted(nums), [], res)
+    return res
+
+def perm(nums, path, res):
+    if len(nums) == 0:
+        res.append(path)
+
+    for i in range(len(nums)):
+        if i > 0 and nums[i] == nums[i - 1]:
+            continue
+        perm(nums[:i] + nums[i + 1:], path+[nums[i]], res)
+    return
+
+permuteUnique([1,1,2])
+********************************************************************************************************
+0(n!)
+def combinationSum(nums, target):
+        #nums.sort()
+        res=[]
+        DFS(nums,target,0,res,[])
+        return res
+ 
+def DFS(nums,target,start,res,path):
+    if target==0:
+        res.append(path)
+        return
+    for i in range(start,len(nums)):
+        if target<nums[i]:
+            return
+        DFS(nums,target-nums[i],i,res,path+[nums[i]])
+combinationSum([2,3,6,7],7)
+*********************************************************************************************************
+def subsets(nums):
+    res = []
+    dfs(sorted(nums), 0, [], res)
+    return res
+
+def dfs(nums, index, path, res):
+    res.append(path)
+    for i in range(index, len(nums)):
+        dfs(nums, i+1, path+[nums[i]], res)
+        
+subsets([1,2,3])        
+
+*********************************************************************************************************
+def subsetsWithDup(nums):
+    res = []
+    dfs(sorted(nums), 0, [], res)
+    return res
+
+def dfs(nums, index, path, res):
+    res.append(path)
+    for i in range(index, len(nums)):
+        if i > index and nums[i] == nums[i - 1]:
+                continue
+        dfs(nums, i+1, path+[nums[i]], res)
+        
+subsetsWithDup([1,2,2])        
+*********************************************************************************************************
+#O(3**N × 4**M)
+def letterCombinations(digits):
+        if len(digits)<1: return []
+        dic={
+            '2':['a','b','c'],
+            '3':['d','e','f'],
+        }
+        length=len(digits)
+        res=[]
+        getString(res,'',length,0,digits,dic)
+        return res
+
+def getString(res,string,length,num,digits,dic):
+    if num==length:
+        res.append(string)
+        return
+    for letter in dic[digits[num]]:
+        getString(res,string+letter,length,num+1,digits,dic)
+        
+letterCombinations("23")
+        
+*********************************************************************************************************
+def combine(n, k):
+    res = []
+    dfs(range(1,n+1), k, [], res)
+    return res
+    
+def dfs(nums, k, path, res):
+    if k == 0:
+        res.append(path)
+        return
+    if len(nums) >= k:
+        for i in range(len(nums)):
+            dfs(nums[i+1:], k-1, path+[nums[i]], res)
+    return
+
+combine(4,2)   
+*********************************************************************************************************
+def generateParenthesis(n):
+        if n == 0:
+            return []
+        res = []
+        helpler(0, 0, '', res, n)
+        return res
+
+def helpler(l, r, path, res, n):
+    if r == n :
+        res.append(item)
+        return
+    if l < n:
+        helpler(l + 1, r, path + '(', res, n)
+    if r < l:
+        helpler(l, r + 1, path + ')', res, n)
+            
+generateParenthesis(3)        
+*********************************************************************************************************
+def partition( s):
+    res = []
+    dfs(s, [], res)
+    return res
+    
+def dfs(s, path, res):
+    if not s: # backtracking
+        res.append(path)
+    for i in range(1, len(s)+1):
+        if isPar(s[:i]):
+            dfs(s[i:], path+[s[:i]], res)
+            
+def isPar(s):
+    return s == s[::-1]
+    
+partition("aaba")    
+*********************************************************************************************************
+https://www.youtube.com/watch?v=t4xUA-aHzy8&list=PLamzFoFxwoNigGUa4TRpRk-2SNaGhmypH&index=10
+O(n)
+#KMPSearch
+def KMPSearch(pat, txt): 
+    M = len(pat) 
+    N = len(txt) 
+  
+    lps = [0]*M 
+    j = 0 # index for pat[] 
+  
+    computeLPSArray(pat, M, lps) 
+  
+    i = 0 # index for txt[] 
+    while i < N: 
+        if pat[j] == txt[i]: 
+            i += 1
+            j += 1
+  
+        if j == M: 
+            print ("Found pattern at index " + str(i-j) )
+            j = lps[j-1] 
+  
+        # mismatch after j matches 
+        elif i < N and pat[j] != txt[i]: 
+            # Do not match lps[0..lps[j-1]] characters, 
+            # they will match anyway 
+            if j != 0: 
+                j = lps[j-1] 
+            else: 
+                i += 1
+  
+def computeLPSArray(pat, M, lps): 
+    len = 0 # length of the previous longest prefix suffix 
+  
+    lps[0] # lps[0] is always 0 
+    i = 1
+  
+    # the loop calculates lps[i] for i = 1 to M-1 
+    while i < M: 
+        if pat[i]== pat[len]: 
+            len += 1
+            lps[i] = len
+            i += 1
+        else: 
+            if len != 0: 
+                len = lps[len-1] 
+            else: 
+                lps[i] = 0
+                i += 1
+  
+KMPSearch("ABCDABCA", "ABCDABCXABCDABCA") 
+*********************************************************************************************************
+def exist(board,word):
+    if not board or word is None:
+        return 0
+    elif not board[0]:
+        return 0   
+    result = False    
+    for i in range(len(board)):
+        for j in range(len(board[0])):
+            if board[i][j] == word[0]:
+                count=0
+                result = dfs(board,i,j,word,count)
+                
+                if result:
+                    return True
+                
+    
+def dfs(board,x,y,word,count):
+    count+=1
+    temp = board[x][y] 
+    board[x][y] = 'x'
+    if count == len(word):
+        return True
+    if x-1 >=0 and board[x-1][y] == word[count]:
+        result = dfs(board,x-1,y,word,count)
+        if result:
+            return True
+    if y-1 >=0 and board[x][y-1] == word[count]:
+        result = dfs(board,x,y-1,word,count)
+        if result:
+            return True
+    if x+1 <len(board) and board[x+1][y] == word[count]:
+        result = dfs(board,x+1,y,word,count)  
+        if result:
+            return True
+    if y+1 <len(board[0]) and board[x][y+1] == word[count]:
+        result = dfs(board,x,y+1,word,count)    
+        if result:
+            return True
+    board[x][y] = temp
+    
+exist([
+  ['A','B','C','E'],
+  ['S','F','C','S'],
+  ['A','D','E','E']
+],"ABXFZ")    
+*********************************************************************************************************
+#https://www.youtube.com/watch?v=HZax70OmiAk
+O(n^2)
+def setZeros(matrix) : 
+    is_col = False
+    R = len(matrix)
+    C = len(matrix[0])
+    for i in range(R):
+        
+        if matrix[i][0] == 0:
+            is_col = True
+        for j in range(1, C):
+            if matrix[i][j]  == 0:
+                matrix[0][j] = 0
+                matrix[i][0] = 0
+
+    for i in range(1, R):
+        for j in range(1, C):
+            if (matrix[0][j] == 0 or matrix[i][0] == 0) : 
+                matrix[i][j] = 0
+
+    if matrix[0][0] == 0:
+        for j in range(C):
+            matrix[0][j] = 0
+
+    if is_col:
+        for i in range(R):
+            matrix[i][0] = 0
+                
+setZeros([[0,1,2,0],[3,4,5,2],[1,3,1,5]])                
+*********************************************************************************************************
+class ListNode(object):
+    def __init__(self, x):
+        self.val = x
+        self.next = None
+         
+class Solution(object): 
+    def __init__(self): 
+        self.head = None
+    
+    def push(self, new_data): 
+        new_node = ListNode(new_data) 
+        new_node.next = self.head 
+        self.head = new_node 
+        
+    def swapPairs(self,head):
+        
+        if not head:
+            return None
+        if not head.next:
+            return head
+        
+        p = head
+        new_head = p.next
+        
+        while True:
+            
+            q = p.next
+            temp = q.next
+            q.next = p
+            
+            if temp == None or temp.next == None:
+                p.next =  temp
+                break
+                
+            p.next = temp.next
+            p = temp
+            
+        return new_head    
+        
+l1 = Solution()         
+
+l1.push(4)                    
+l1.push(3) 
+l1.push(2) 
+l1.push(1) 
+    
+l1.swapPairs(l1.head)
+*********************************************************************************************************
+def SieveOfEratosthenes(n): 
+      
+    if n < 3: return 0
+    is_prime = [True] * (n+1) 
+    is_prime[1] = False #1 not prime
+    is_prime[0] = False 
+    for i in range(2, int(n ** 0.5) + 1):
+        if is_prime[i]:
+            for j in range(i * i, n + 1, i): #mark the multiplies 
+                is_prime[j] = False
+    #res = {x for x in range(2, n) if is_prime[x]} #exclude n 
+   
+    count = 0            
+    for i in range(2,len(is_prime)-1):            
+        if is_prime[i]:
+            count+=1
+                   
+    return count  
+SieveOfEratosthenes(3)
+*********************************************************************************************************
+class Node: 
+    def __init__(self ,key): 
+        self.val = key 
+        self.left = None
+        self.right = None
+  
+def isSymmetric(root):
+        if root is None:
+            return True
+        else:
+            return isMirror(root.left, root.right)
+
+def isMirror(left,right):
+    if left == None and right == None:
+        return True
+    if left == None or right == None:
+        return False
+    if left.val==right.val:
+        if isMirror(left.left,right.right) and isMirror(left.right,right.left):
+            return True
+
+    return False
+        
+root = Node(1) 
+root.left = Node(2) 
+root.right = Node(2) 
+root.left.left = Node(3) 
+root.left.right = Node(4) 
+root.right.left= Node(4)
+root.right.right = Node(3)
+isSymmetric(root) 
+*********************************************************************************************************
+def isPalindrome(s):
+        
+    low=0
+    high= len(s)-1
+    
+    while low < high:
+        
+        while low < high and not s[low].isalnum() :
+            low+=1
+        while low < high and not s[high].isalnum():
+            high-=1
+            
+        if s[low].lower()!=s[high].low
+			return False
+            low+=1
+            high-=1
+        
+        return True
+		
+ isPalindrome("A man, a plan, a canal: Panama")		
+*********************************************************************************************************
+class ListNode(object):
+    def __init__(self, x):
+        self.val = x
+        self.next = None
+         
+class Solution(object): 
+    def __init__(self): 
+        self.head = None
+    
+    def push(self, new_data): 
+        new_node = ListNode(new_data) 
+        new_node.next = self.head 
+        self.head = new_node 
+        
+    def reverse(self,head):
+        prev=0
+        p=head
+        while p:
+            temp = p.next
+            p.next = prev
+            prev = p
+            p = temp
+        return prev    
+              
+    def addTwoNumbers(self,l1,l2):
+        
+        
+        l1 = self.reverse(l1)
+        l2 = self.reverse(l2)
+        
+        carry = 0 
+        NewList=ListNode(0)
+        temp=NewList
+        totalSum=0
+        
+        while l1 or l2 or carry:
+            
+            if l1:
+                totalSum += l1.val
+                l1= l1.next
+            if l2:
+                totalSum+= l2.val
+                l2=l2.next
+            totalSum += carry
+            carry= totalSum//10
+            temp.next=ListNode(totalSum%10)
+            totalSum=0
+            temp= temp.next
+            
+        return self.reverse(NewList.next) 
+            
+l1 = Solution()         
+l2 = Solution()
+l1.push(3)
+l1.push(4)                    
+l1.push(2)
+l1.push(7)
+ 
+l2.push(4)
+l2.push(6)                    
+l2.push(5)
+
+result=Solution()
+result.addTwoNumbers(l1.head,l2.head)
+*********************************************************************************************************
+def canJump(nums):
+    if not nums: 
+        return False
+    max_reach = 0
+	
+    for i in range(len(nums)):
+        if max_reach <= i:
+            max_reach = max(max_reach, i + nums[i])
+            if max_reach >= len(nums) - 1:
+                return True
+        else:
+            return False          
+            
+canJump([2,3,1,1,4])                           
+*********************************************************************************************************
+def compareVersion(version1, version2):
+        
+    versions1=[]
+    for i in version1.split('.'):
+        versions1.append(int(i))
+    
+    versions2 = list(map(int,version2.split(".")))
+    
+    for i in range(max(len(versions1),len(versions2))):
+        if i < len(versions1):
+            v1 = versions1[i]                    
+        else:
+            v1 = 0
+            
+        if i < len(versions2):
+            v2 = versions2[i]                    
+        else:
+            v2 = 0
+            
+        if v1 > v2:
+            return 1
+        elif v1 < v2:
+            return -1
+
+version1 = "7.5.2.4"
+version2 = "7.5.3"
+compareVersion(version1, version2)
+*********************************************************************************************************
+#min-heap
+# O(k+(n-k)lgk) time, min-heap
+import heapq
+def findKthLargest(nums, k):
+    
+    heap = nums[:k]
+    heapq.heapify(heap)  # create a min-heap whose size is k 
+    for num in nums[k:]:
+        if num > heap[0]:
+           heapq.heapreplace(heap, num)
+        # or use:
+        # heapq.heappushpop(heap, num)
+    return heap[0]
+    
+findKthLargest([3,2,1,5,6,4],2)
+
+#max-heap
+import heapq
+def findKthSmallest(nums, k):
+    
+    heap = nums[:k]
+    heapq._heapify_max(heap) 
+    for num in nums[k:]:
+        if num < heap[0]:
+           
+           heapq._heapreplace_max(heap,num)
+           #heapq._heappop_max(heap)
+           #heapq._heappush_max(heap,num)
+              
+    return heap[0]
+    
+findKthSmallest([3,8,4,9,12,2],5)
+
+
+*********************************************************************************************************
+def numDecodings(s):
+        
+        if not s:
+            return 0
+        if s[0] == '0':
+            return 0 
+        
+        n=len(s)
+        count = [0] * (n+1)  
+        count[0] = 1
+        count[1] = 1
+
+        for i in range(2, n+1): 
+
+            count[i] = 0
+
+            if (s[i-1] > '0'): 
+                count[i] = count[i-1] 
+                
+            if (s[i-2] == '1' or (s[i-2] == '2' and s[i-1] < '7') ): 
+                count[i] += count[i-2] 
+
+        return count[n] 
+        
+numDecodings("12321")        
+*********************************************************************************************************
+class Trie:
+    
+    def __init__(self):
+        self.head = {}
+            
+    def add(self,word):
+        cur = self.head
+
+        for ch in word:
+            if ch not in cur:
+                cur[ch] = {}
+            cur = cur[ch]    
+        cur["*"] = True
+        
+    def search(self,word):
+        cur = self.head
+        
+        for ch in word:
+            if ch not in cur:
+                return False
+            cur = cur[ch]    
+    
+        if "*" in cur:
+            return True
+        else:
+            return False
+            
+    def startsWith(self,word):
+        cur = self.head
+        
+        for ch in word:
+            if ch not in cur:
+                return False
+            cur = cur[ch] 
+            
+        return True    
+    
+            
+d = Trie()        
+d.add("apple")
+print(d.search("apple"))
+print(d.search("app"))
+print(d.startsWith("app"))
+d.add("app")
+print(d.search("app"))
+
+
+*********************************************************************************************************
+def rob(nums):
+    
+    if len(nums) == 0:
+        return 0
+        
+    if len(nums) == 1:
+        return nums[0]
+        
+    if len(nums) == 2:
+        return max(nums[0],nums[1])
+        
+    dp = [0]* len(nums)
+    dp[0]= nums[0]
+    dp[1]= max(nums[0],nums[1])
+    
+    for i in range(2,len(nums)):
+        dp[i] = max(nums[i]+dp[i-2],dp[i-1])
+        
+    return dp[-1]    
+    
+rob([2,7,9,3,1])    
+*********************************************************************************************************
+def rob2(nums):
+    
+    if not nums:
+        return 0
+    if len(nums) == 1:
+        return nums[0]
+    if len(nums) == 2:
+        return max(nums[0],nums[1])
+    
+    #excluding 1st element
+    temp1 = nums[1:]
+    #excluding last element
+    temp2 = nums[:-1]
+    
+    d1 = calculate(temp1)
+    d2 = calculate(temp2)
+    return max(d1,d2)
+
+def calculate(nums):
+    
+    dp = [0]*len(nums)
+    dp[0]=nums[0]
+    dp[1]=nums[1]
+    
+    for i in range(2,len(nums)):
+        dp[i] = nums[i]+max(dp[:i-1])
+        
+    return max(dp[-1],dp[-2])    
+    
+rob([1,3,1,3,100]) 
+#rob([1,2,3,1]) 
+*********************************************************************************************************
+#Populating Next Right Pointers(in perfect binary tree)
+class Node: 
+    def __init__(self ,key): 
+        self.data = key 
+        self.left = None
+        self.right = None
+        self.next = None
+  
+def TreeLinkNode(root): 
+    if root is None:
+        return
+    left, right, next = root.left, root.right, root.next
+    if left is None or right is None:
+        return
+    left.next = right
+    if next is not None:
+        right.next = next.left
+    TreeLinkNode(left)
+    TreeLinkNode(right)
+    
+
+root = Node(0) 
+root.left = Node(1) 
+root.right = Node(2) 
+root.left.left = Node(3) 
+root.left.right = Node(4)  
+root.right.left= Node(5)
+root.right.right = Node(6)
+
+
+TreeLinkNode(root)
+*********************************************************************************************************
+#Populating Next Right Pointers
+#level order travrsal
+class Node: 
+    def __init__(self ,key): 
+        self.data = key 
+        self.left = None
+        self.right = None
+        self.next = None
+  
+def TreeLinkNode(root): 
+    newHead = root
+    tail = dummy = Node(0)
+    while root:
+        
+        tail.next = root.left
+        if tail.next:
+            tail = tail.next
+            
+        tail.next = root.right
+        if tail.next:
+            tail = tail.next
+            
+        root = root.next
+        
+        if not root:
+            tail = dummy
+            root = dummy.next
+            
+    return newHead 
+    
+
+root = Node(1) 
+root.left = Node(2) 
+root.right = Node(3) 
+root.left.left = Node(4) 
+root.left.right = Node(5)  
+#root.right.left= Node(5)
+root.right.right = Node(7)
+
+TreeLinkNode(root)
+	
+#alternative	
+class Node: 
+    def __init__(self ,key): 
+        self.data = key 
+        self.left = None
+        self.right = None
+        self.next = None
+  
+def TreeLinkNode(root): 
+    childhead = child = None
+    while root:
+        while root:
+            if root.left:
+                if childhead:
+                    child.next=root.left
+                else:
+                    childhead = root.left
+                child = root.left    
+                
+            if root.right:
+                if childhead:
+                    child.next=root.right
+                else:
+                    childhead = root.right
+                child = root.right
+                
+            root= root.next
+        root = childhead
+        child = None
+        childhead = None
+    
+
+root = Node(1) 
+root.left = Node(2) 
+root.right = Node(3) 
+root.left.left = Node(4) 
+root.left.right = Node(5)  
+#root.right.left= Node(5)
+root.right.right = Node(7)
+
+
+TreeLinkNode(root)
+*********************************************************************************************************
+#https://www.youtube.com/watch?v=c3iUKYoVJZk
+class Node: 
+    def __init__(self, data): 
+        self.data = data  
+        self.left = None
+        self.right = None
+                
+class Solution(object):     
+    def constructMaximumBinaryTree(self,nums):
+        if not nums:
+            return None
+        i = nums.index(max(nums))
+        node = Node(nums[i])
+        
+        node.left = self.constructMaximumBinaryTree(nums[:i])
+        node.right = self.constructMaximumBinaryTree(nums[i+1:])
+        
+        return node
+
+s=Solution()    
+s.constructMaximumBinaryTree([3,2,1,6,0,5])
+*********************************************************************************************************
+#hasPathSum
+class Node: 
+    def __init__(self, val):
+        self.val = val
+        self.left = None
+        self.right = None
+
+def hasPathSum(root,sum):
+        return dfs(root,0,sum)
+        
+def dfs(root,n,sum):
+    if not root:
+        return False
+    if root and not root.left and not root.right:
+        return n+root.val==sum
+    else:
+        return dfs(root.left,n+root.val,sum) or dfs(root.right,n+root.val,sum)
+
+           
+root = Node(50) 
+root.left = Node(16) 
+root.right = Node(90) 
+root.left.left = Node(10) 
+root.left.right = Node(40) 
+root.right.left = Node(85)
+root.right.right = Node(100)
+
+hasPathSum(root,225)
+*********************************************************************************************************
+#All path sum
+class Node: 
+    def __init__(self, val): 
+        self.val = val
+        self.left = None
+        self.right = None
+class Solution():
+    
+    def pathSum(self, root, sum):
+        if not root:
+            return []
+        res = []
+        self.dfs(root, sum, [], res)
+        return res
+        
+    def dfs(self, root, sum, ls, res):
+        if not root.left and not root.right and sum == root.val:
+            ls.append(root.val)
+            res.append(ls)
+        if root.left:
+            self.dfs(root.left, sum-root.val, ls+[root.val], res)
+        if root.right:
+            self.dfs(root.right, sum-root.val, ls+[root.val], res)
+               
+root = Node(5) 
+root.left = Node(4) 
+root.right = Node(8) 
+root.left.left = Node(11) 
+root.left.left.right = Node(2) 
+root.right.left = Node(13)
+root.right.right = Node(4)
+root.right.right.left = Node(5)
+s=Solution()
+s.pathSum(root,22)
+*********************************************************************************************************
+class Node: 
+    def __init__(self, val):
+        self.val = val
+        self.left = None
+        self.right = None
+
+class Solution():      
+    def flatten(self,root):
+        if not root:
+            return 
+        
+        self.flatten(root.left)
+        self.flatten(root.right)
+        
+        tail = root.left
+        if tail:
+            while tail and tail.right:
+                tail = tail.right
+            tail.right = root.right
+            root.right = root.left
+            root.left = None
+
+           
+root = Node(1) 
+root.left = Node(2) 
+root.right = Node(5) 
+root.left.left = Node(3) 
+root.left.right = Node(4) 
+root.right.right = Node(6)
+
+s=Solution()
+s.flatten(root)
+
+#alternative
+	def flatten(self,root):
+        if not root:
+            return
+        self.prev = root
+        self.flatten(root.left)
+    
+        temp = root.right
+        root.right, root.left = root.left, None
+        self.prev.right = temp
+    
+        self.flatten(temp)
+*********************************************************************************************************
+def simplifyPath(path):
+    pwd = []  # stack, present working directory
+    path = path.split("/")
+    for curr in path:
+        if not curr or curr == ".":  # skip current dir
+            continue
+        elif curr == "..":
+            if pwd:  # if we're not in the root directory, go back
+                pwd.pop()
+        else:
+            pwd.append(curr)
+    return "/" + "/".join(pwd)
+    
+simplifyPath("/a//b////c/d//././/..")    
+*********************************************************************************************************
+class TreeNode: 
+    def __init__(self ,val): 
+        self.val = val 
+        self.left = None
+        self.right = None
+  
+def buildTree(inorder, postorder): 
+    #for node in range(len(postorder)-1,-1,-1):
+        
+    if not inorder or not postorder:
+        return None
+        
+    root=TreeNode(postorder.pop())
+    inorderindex = inorder.index(root.val)
+    
+    root.right = buildTree(inorder[inorderindex+1:], postorder)
+    root.left = buildTree(inorder[:inorderindex], postorder)
+    
+    return root
+
+buildTree([9,3,15,20,7],[9,15,7,20,3])
+*********************************************************************************************************
+class Node: 
+    def __init__(self, val): 
+        self.val = val
+        self.left = self.right = None
+  
+
+def isValidBST(root):
+    
+    if isBST(root,float('-inf'),float('inf')):
+        return True
+    
+def isBST(root,l,r):  
+
+    if (root == None) : 
+        return True
+
+    if (l != None and root.val <= l) : 
+        return False
+
+    if (r != None and root.val >= r) : 
+        return False
+
+    return isBST(root.left, l, root.val) and  isBST(root.right, root.val, r)           
+
+root = Node(5) 
+root.left = Node(1) 
+root.right = Node(4) 
+root.right.left = Node(3) 
+root.right.right = Node(6)
+
+isValidBST(root)
+*********************************************************************************************************
+class Node: 
+    # Constructor to create a new node 
+    def __init__(self, data): 
+        self.data = data 
+        self.left = self.right = None
+        
+def zizagtraversal(root): 
+    if root is None: 
+        return
+  
+    s1 = [] 
+    s2 = [] 
+    res=[]
+ 
+    s1.append(root) 
+  
+    while s1 or s2:
+        temp=[]
+        while s1:
+            p=s1.pop()
+            temp.append(p.data)
+            if p.left:
+                s2.append(p.left)
+            if p.right:
+                s2.append(p.right)
+        res.append(temp) 
+        
+        if s2:
+            temp=[]        
+            while s2:
+                p=s2.pop()
+                
+                temp.append(p.data)
+                if p.right:
+                    s1.append(p.right)
+                if p.left:
+                    s1.append(p.left)
+            res.append(temp)     
+    return res            
+                
+root = Node(3) 
+root.left = Node(9) 
+root.right = Node(20) 
+root.right.left = Node(15) 
+root.right.right = Node(7) 
+zizagtraversal(root) 
+*********************************************************************************************************
+def findMedianSortedArrays(nums1, nums2):
+       
+    if len(nums1)>len(nums2):
+        findMedianSortedArrays(nums2,nums1)
+        
+    x=len(nums1)    
+    y=len(nums2)
+    
+    low=0
+    high=len(nums1)
+    
+    while low<high:
+        
+        xpartion = (low+high)//2
+        ypartion = (x+y+1)//2 - xpartion
+        
+        if xpartion == 0:
+            xmaxleft = float('-inf')
+        else:
+            xmaxleft = nums1[xpartion-1]
+        
+        if xpartion == x:
+            xminright = float('inf')
+        else:
+            xminright = nums1[xpartion]
+            
+        if ypartion == 0:
+            ymaxleft = float('-inf')
+        else:
+            ymaxleft = nums2[ypartion-1]
+            
+        if ypartion == y:
+            yminright = float('inf')
+        else:
+            yminright = nums2[ypartion]
+            
+        if xmaxleft<= yminright and ymaxleft<= xminright:
+            if (x+y)%2 == 0:
+                return max(xmaxleft,ymaxleft)+min(xminright,yminright)/2
+            else:
+                return max(xmaxleft,ymaxleft)
+        elif xmaxleft>yminright:
+            high = xpartion - 1
+        else:
+            low = xpartion + 1
+            
+        
+            
+nums1 = [1, 2]
+nums2 = [3,4]     
+findMedianSortedArrays(nums1, nums2)
+*********************************************************************************************************
+*********************************************************************************************************
+https://www.youtube.com/watch?v=GSBLe8cKu0s&t=795s
+http://www.interviewdruid.com/find-the-skyline-of-a-group-of-buildings/
+import heapq
+
+def getSkyline( buildings):
+    
+    # `position` stores all coordinates where the largest height may change
+    # `alive` stores all buildings whose ranges cover the current coordinate
+    position = sorted(set([building[0] for building in buildings] + [building[1] for building in buildings]))
+    ptr, prevH = 0, 0
+    alive, ret = [], []
+    
+    for curPos in position:
+        # pop buildings that end at or before `curPos` out of the priority queue
+        # they are no longer "alive"
+        while alive and alive[0][1] <= curPos:
+            heapq.heappop(alive)
+        
+        # push [negative_height, end_point] of all buildings that start before `curPos` onto the priority queue
+        # they are candidates for the current highest building
+        while ptr < len(buildings) and buildings[ptr][0] <= curPos:
+            heapq.heappush(alive, [-buildings[ptr][2], buildings[ptr][1]])
+            ptr += 1
+        
+        # now alive[0] must be the largest height at the current position
+        if alive:
+            curH = -alive[0][0]
+            if curH != prevH:
+                ret.append([curPos, curH])
+                prevH = curH
+        else:  # no building -> horizon
+            ret.append([curPos, 0])
+
+getSkyline([[1,3,3],[2,4,4],[5,8,2],[6,7,4] ,[8,9,4]])  
+#1,3..2,4..4,0..5,2..6,4..7,2..8,4..9,0
+*********************************************************************************************************
+
+#LRUCache
+#https://www.youtube.com/watch?v=R0GTqg3pJKg
+class LinkedListNode(object):
+    def __init__(self, key=None, val=-1):
+        self.key = key
+        self.val = val
+        self.pre = None
+        self.next = None
+
+
+class LinkedList(object):
+    def __init__(self):
+        self.head = None
+        self.tail = None
+        self.size = 0
+
+    def appendHead(self, node):
+        node.next, node.pre = self.head, None
+        if self.head:
+            self.head.pre = node
+        self.head = node
+
+        if not self.tail:
+            self.tail = self.head
+
+        self.size += 1
+
+    def remove(self, node):
+        if not node:
+            return
+
+        pre, next = node.pre, node.next
+        if pre:
+            pre.next = next
+        if next:
+            next.pre = pre
+
+        if self.head == node:
+            self.head = next
+
+        if self.tail == node:
+            self.tail = pre
+
+        self.size -= 1
+        return node
+
+    def removeTail(self):
+        return self.remove(self.tail)
+
+    def advance(self, node):
+        self.remove(node)
+        self.appendHead(node)
+
+
+class LRUCache(object):
+    def __init__(self, capacity):
+        self.capacity = capacity
+        self.record = {}
+        self.linkedList = LinkedList()
+
+    def get(self, key):
+        if key not in self.record:
+            return -1
+
+        self.linkedList.advance(self.record[key])
+        return self.record[key].val
+
+    def put(self, key, value):
+        if key not in self.record:
+            node = LinkedListNode(key, value)
+
+            self.linkedList.appendHead(node)
+            self.record[key] = node
+
+            if self.linkedList.size > self.capacity:
+                del self.record[self.linkedList.removeTail().key]
+        else:
+            self.record[key].val = value
+            self.linkedList.advance(self.record[key])
+            
+obj = LRUCache(2)
+param_1 = obj.get(1)
+obj.put(1,1)
+
+obj.put(2,2)
+obj.get(1)
+obj.put(3,3)
+obj.get(2)
+
+	

@@ -1,0 +1,624 @@
+def searchInsert(nums,target):
+    
+    if target < nums[0]:
+        return 0
+    if target > nums[length-1]:
+        return length    
+
+    for i in range(0,length):
+        if target == nums[i]:
+            return i
+        elif target < nums[i]:
+            return i
+        
+searchInsert([1,3,5,6], 5) 
+*********************************************************************************************************
+def removeDuplicates(nums):
+    
+    left=0
+    
+    for i in range(1,len(nums)):
+        if nums[i] != nums[left]:
+            left+=1
+            nums[left]=nums[i]
+            
+    return i+1        
+    
+   
+removeDuplicates([0,0,1,1,1,2,2,3,3,4]) 
+*********************************************************************************************************
+def rob(nums):
+    
+    if len(nums)==1:
+        return nums[-1]
+    elif len(nums)==2:
+        return max(nums[0],nums[1])
+    else:
+        dp=[0]*len(nums)
+        dp[0] = nums[0]
+        dp[1] = max(nums[0],nums[1]) 
+        for i in range(2,len(nums)):
+            dp[i]=nums[i]+ max(dp[:i-1])
+            
+        return max(dp[-1],dp[-2])    
+             
+rob([2,7,9,3,1]) 
+
+*********************************************************************************************************
+def pivotIndex(nums):
+    
+    sum_ = sum(nums)  
+    left_sum=0
+    for i in range(len(nums)):
+        if sum_ - nums[i] -left_sum == left_sum:
+            return i
+        else:
+            left_sum += nums[i] 
+    
+    return -1        
+    
+pivotIndex([1, 7, 3, 6, 5, 6]) 
+
+*********************************************************************************************************
+def reverseVowels(s):
+        
+    vowels = 'aeiouAEIOU'
+    stack = []
+    for char in s:
+        if char in vowels:
+            stack.append(char)
+            
+    res=""        
+    for char in s:
+        if char not in vowels: 
+            res+=char
+        else:
+            res+=stack.pop() 
+            
+    return res        
+
+reverseVowels("leetcode")    
+*********************************************************************************************************
+def reverseOnlyLetters(S):
+    
+    letters = [c for c in S if c.isalpha()]
+    ans = []
+    for c in S:
+        if c.isalpha():
+            ans.append(letters.pop())
+        else:
+            ans.append(c)
+    return "".join(ans)    
+    #"j<*zz"
+*********************************************************************************************************
+def pow_of_3(n):
+    
+    if n < 3:
+        return False
+        
+    while n%3 == 0:
+        n=n//3
+    
+    return n==1        
+    
+pow_of_3(27)
+*********************************************************************************************************
+def mostCommonWord(paragraph, banned):
+    
+    new=""
+    for i in paragraph:
+        if i.isalpha():
+            new+= i.lower()
+        else:
+            new+= " "
+            
+    new_ = new.split()
+    d={}
+    for i in new_:
+        if i in banned:
+            continue
+        if not i.isalpha():
+            continue
+        else:
+            if i not in d:
+                d[i]=1
+            else:
+                d[i]+=1
+    
+    return max(d.keys(), key = lambda x: d[x])            
+            
+mostCommonWord("Bob hit a ball, the hit BALL flew far after it was hit.",["hit"])
+*********************************************************************************************************
+def hammingWeight(n):
+    count = 0 
+    while n > 0:
+        x=bin(n)
+        if n % 2:
+            count += 1
+        n >>= 1
+    return count
+hammingWeight(255)   
+*********************************************************************************************************
+def maxSubArray(self, nums):
+        
+        max_ending_here = 0
+        max_sofar = []
+
+        for i in nums:
+            max_ending_here = max_ending_here + i
+            if max_ending_here < i:
+                max_ending_here = i
+
+            max_sofar.append(max_ending_here)
+
+        return max(max_sofar)  
+*********************************************************************************************************
+def findLengthOfLCIS(nums):
+    
+    res=0
+    count=1
+    for i in range(1,len(nums)):
+        
+        if nums[i] > nums[i-1]:
+            count+=1
+        else:
+            count=1
+			
+        res= max(res,count)
+            
+    return res
+    
+findLengthOfLCIS([1,3,5,4,7])
+*********************************************************************************************************
+def addToArrayForm(A,K):
+    
+    temp=""
+    for i in A:
+        temp+=str(i)
+    
+    res=[]
+    new_A = int(temp)+K
+    while new_A:
+        last=new_A%10
+        new_A=new_A//10
+        res.insert(0,last)
+        
+addToArrayForm(A = [1,2,0,0], K = 34)
+*********************************************************************************************************
+def removeElement(nums,val):
+    
+    left=0
+    for i in range(len(nums)):
+        if nums[i] != val:
+            nums[left]=nums[i]
+            left+=1
+            
+    return left        
+removeElement(nums = [0,1,2,2,3,0,4,2], val = 2)
+*********************************************************************************************************
+def reverseStr(s,k):
+    
+    flip=True
+    
+    res=""
+    for i in range(0,len(s),k):
+        if flip:
+            res += s[i:i+k] [::-1]
+        else:
+            res += s[i:i+k]
+        flip = not flip    
+           
+reverseStr(s = "abcdefg", k = 2)
+*********************************************************************************************************
+def isRectangleOverlap(rec1,rec2):
+    
+    #width
+    w1=max(rec1[0],rec2[0])
+    w2=min(rec1[2],rec2[2])
+    
+    if w2-w1>0:
+        #hight
+        h1=max(rec1[1],rec2[1])
+        h2=min(rec1[3],rec2[3])
+        
+        if h2-h1>0:
+            return True
+        else:
+            return False  
+    else:
+        return False
+    
+       
+isRectangleOverlap(rec1 = [0,0,2,2], rec2 = [1,1,3,3])
+*********************************************************************************************************
+def maxProfit(self, prices):
+        
+        buy=99999
+        profit=0
+        for i in range(0,len(prices)):
+            if prices[i]<buy:
+                buy=prices[i]
+            elif prices[i]-buy>profit:
+                profit=prices[i]-buy
+        
+        return profit
+*********************************************************************************************************
+def intersect(nums1,nums2):
+    
+    A=sorted(nums1)
+    B=sorted(nums2)
+    i,j=0,0
+    lst=[]
+    while(i<len(nums1) and j < len(nums2)):
+        if A[i] < B[j]:
+            i+=1
+        elif A[i] > B[j]:
+            j+=1
+        else:
+            lst.append(B[j])  
+            i+=1
+            j+=1
+
+    return lst 
+   
+intersect(nums1 = [4,9,5], nums2 = [9,4,9,8,4])
+*********************************************************************************************************
+def missingNumber(nums):
+    
+    sum_ = sum(nums)
+    n=len(nums)+1
+    
+    return (n*(n-1)//2) - sum_
+   
+missingNumber([9,6,4,2,3,5,7,0,1])
+*********************************************************************************************************
+def missingNumberII(nums):
+    
+    arr=[]
+    s=set()
+    for i in nums:
+        s.add(i)
+
+    for i in range(1,len(nums)+1):
+        if i not in s:
+            arr.append(i)
+            
+    return arr        
+   
+missingNumberII([9,6,4,2,3,5,7,0,1])
+*********************************************************************************************************
+def findDuplicate(nums):
+        # Find the intersection point of the two runners.
+        tortoise = nums[0]
+        hare = nums[0]
+        while True:
+            tortoise = nums[tortoise]
+            hare = nums[nums[hare]]
+            if tortoise == hare:
+                break
+        
+        # Find the "entrance" to the cycle.
+        ptr1 = nums[0]
+        ptr2 = tortoise
+        while ptr1 != ptr2:
+            ptr1 = nums[ptr1]
+            ptr2 = nums[ptr2]
+        
+        return ptr1
+        
+findDuplicate([2,5,9,6,9,3,8,9,7,1])        
+*********************************************************************************************************
+#only once
+def sum_subsarray(nums,k):
+    
+    d = {} 
+    sum_ = 0
+
+    for i in range(len(nums)): 
+
+        sum_+=nums[i]
+        if sum_ == k:
+            return (i,0)
+        if sum_ -k in d:
+            return (d[sum_ -k]+1,i)
+        d[sum_]= i  
+
+    
+    
+sum_subsarray([3,2,7,1,6],10)
+*********************************************************************************************************
+#nomber of sums
+def sum_subsarray(nums,k):
+    
+    table = {0: 1}
+    sum = 0
+    ans = 0
+    for i in range(len(nums)):
+        sum += nums[i]
+        if sum - k in table:
+            ans += table[sum - k]
+        if sum in table:
+            table[sum] += 1
+        else:
+            table[sum] = 1
+    return ans
+    
+sum_subsarray([1,2,1,2,1],3)
+*********************************************************************************************************
+def leader(nums):
+    
+    leader=nums[-1]
+    print(leader)
+    for i in range(len(nums)-2,-1,-1):
+        if nums[i]>leader:
+            leader=nums[i]
+            print(leader) 
+            
+leader([16, 17, 4, 3, 5, 2])    
+*********************************************************************************************************
+#true if a2 + b2 = c2
+def isTriplet(ar, n): 
+    # Square all the elemennts 
+    for i in range(n): 
+        ar[i] = ar[i] * ar[i] 
+  
+    # sort array elements 
+    ar.sort() 
+  
+    # fix one element 
+    # and find other two 
+    # i goes from n - 1 to 2 
+    for i in range(n-1, 1, -1): 
+        # start two index variables from  
+        # two corners of the array and  
+        # move them toward each other 
+        j = 0
+        k = i - 1
+        while (j < k): 
+            # A triplet found 
+            if (ar[j] + ar[k] == ar[i]): 
+                return True
+            else: 
+                if (ar[j] + ar[k] < ar[i]): 
+                    j = j + 1
+                else: 
+                    k = k - 1
+    # If we reach here, then no triplet found 
+    return False
+  
+# Driver program to test above function */ 
+ar = [3, 1, 4, 6, 5] 
+ar_size = len(ar) 
+if(isTriplet(ar, ar_size)): 
+    print("Yes") 
+else: 
+    print("No") 
+*********************************************************************************************************
+def Harmonious_Subsequence(nums):
+    from collections import Counter
+    dt = Counter(nums)
+    res = 0
+    for k in dt:
+        if k+1 in dt:
+            res = max(res, dt[k]+dt[k+1])
+    return res
+    
+Harmonious_Subsequence([1,3,2,2,5,2,3,7])    
+*********************************************************************************************************
+def distributeCandies(candies):
+    l1=len(candies)
+    l2=len(set(candies))
+    if l2>=l1//2:
+        return l1//2
+    else:
+        return l2
+    
+distributeCandies([1,2,3,4,5,6])    
+*********************************************************************************************************
+def findUnsortedSubarray(nums):
+    
+    S = sorted(nums)
+    L = len(nums)
+    #Return if already sorted
+    if nums==S:
+        return 0
+    #Find start and end points of unsorted array
+    start = 0
+    end = L
+    for i in range(L):
+        if S[i]!=nums[i]:
+            start = i
+            break
+    for i in range(L-1,-1,-1):
+        if S[i]!=nums[i]:
+            end = i+1
+            break
+            
+    #whole array is not sorted
+    if start==0 and end==L :
+        return L
+    #part of array is unsorted
+    return end-start         
+                                    
+findUnsortedSubarray([1, 4, 7,3, 10, 48,17,26,30,62])
+
+#with no extra space
+def findUnsortedSubarray(nums):
+
+	for i in range(len(nums) - 1):
+  
+		if nums[i] > nums[i + 1] and first == None:
+			first = i
+			last = first + 1
+			break
+		
+	for i in range(len(nums) - 1, 0, -1):
+		
+		if nums[i] < nums[i - 1]:
+			last = i
+			break
+		
+	if first != None:
+		MIN = min(nums[first: last + 1])
+		MAX = max(nums[first: last + 1])
+		
+		while last < len(nums) - 1 and nums[last + 1] < MAX:
+			last += 1
+		
+		while first > 0 and nums[first - 1] > MIN:
+			first -= 1
+		
+		return (last + 1) - first
+	else:
+		return 0
+		
+findUnsortedSubarray([1, 4, 7,3, 10, 48,17,26,30,62])			
+*********************************************************************************************************
+def findJudge(N, trust):
+        l = [0]*(N+1)
+        for villager, judge in trust:
+            l[judge] += 1
+            l[villager] -= 1
+        
+        for i in range(1,N+1):
+            if l[i] == N-1: 
+				return i
+        return -1
+        
+findJudge(N = 3, trust = [[1,3],[2,3],[3,1]])        
+*********************************************************************************************************
+def canPlaceFlowers (flowerbed, n):
+        
+    count = n
+    flowerbed=[0]+flowerbed+[0]
+    for i in range(1,len(flowerbed)-1) :
+        if flowerbed[i]==0 and flowerbed[i-1] == 0 and flowerbed[i+1] == 0:
+            flowerbed[i]=1
+            count-=1
+    
+        if count==0:
+            return True
+
+    if n <= 0 
+        return True
+    else:
+        return False
+            
+canPlaceFlowers(flowerbed = [1,0,0,0,0,1], n = 2)            
+                 
+*********************************************************************************************************
+#flip game
+def flipgame(s):
+        
+    res=[]
+    s=list(s)
+    for i in range(len(s)-1):
+        if s[i] == "+" and s[i+1]=="+":
+            s[i] = s[i+1] = '-'
+            res.append("".join(s))
+            s[i] = s[i+1] = '+'
+    return res        
+            
+flipgame("++++")    
+
+#flip gameII
+def flipgame(s):
+        
+    if len(s)<2:
+        return False
+      
+    for i in range(len(s)-1):
+        if s[i] == "+" and s[i+1]=="+":
+            res=s[0:i] + "--" + s[i+2:]
+            if not flipgame(res):
+                return True        
+    
+    return False        
+flipgame("++++")    
+*********************************************************************************************************
+def calPoints(ops):
+    
+    stack = []
+    for op in ops:
+        if op == '+':
+            stack.append(stack[-1] + stack[-2])
+        elif op == 'C':
+            stack.pop()
+        elif op == 'D':
+            stack.append(2 * stack[-1])
+        else:
+            stack.append(int(op))
+
+    return sum(stack)
+    
+calPoints(["5","2","C","D","+"])        
+*********************************************************************************************************
+def add_bin(a,b):
+    
+    while b!=0:
+        carry= a&b
+        a=a^b
+        b=carry<<1
+        
+    print(a)    
+    
+add_bin(2,3)       
+*********************************************************************************************************
+def rotatedDigits( N):
+        
+        count = 0
+        for i in range(1,N+1):
+            s = str(i)
+            # print s 
+            if '3' in  s or '4' in s or  '7' in s :
+                continue
+            elif  '2' in s or '5' in s or '6' in s or '9' in s:
+                count += 1
+                # print 'count'
+            # print i
+        return count
+
+rotatedDigits(25)	
+Input: 10
+Output: 4
+Explanation: 
+There are four good numbers in the range [1, 10] : 2, 5, 6, 9.
+Note that 1 and 10 are not good numbers, since they remain unchanged after rotating.		
+*********************************************************************************************************
+*********************************************************************************************************
+*********************************************************************************************************
+*********************************************************************************************************
+*********************************************************************************************************
+*********************************************************************************************************
+*********************************************************************************************************
+*********************************************************************************************************
+*********************************************************************************************************
+*********************************************************************************************************
+*********************************************************************************************************
+*********************************************************************************************************
+*********************************************************************************************************
+*********************************************************************************************************
+*********************************************************************************************************
+*********************************************************************************************************
+*********************************************************************************************************
+*********************************************************************************************************
+*********************************************************************************************************
+*********************************************************************************************************
+*********************************************************************************************************
+*********************************************************************************************************
+*********************************************************************************************************
+*********************************************************************************************************
+*********************************************************************************************************
+*********************************************************************************************************
+*********************************************************************************************************
+*********************************************************************************************************
+*********************************************************************************************************
+*********************************************************************************************************
+*********************************************************************************************************
+*********************************************************************************************************
+*********************************************************************************************************
+*********************************************************************************************************
+*********************************************************************************************************
+*********************************************************************************************************
+*********************************************************************************************************
+*********************************************************************************************************
